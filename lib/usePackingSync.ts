@@ -8,6 +8,7 @@ import { defaultPackingItems } from '@/data/packingData'
 
 const DB_PATH = 'packing/v2'
 const STORAGE_KEY = 'malta-packing-v2'
+const DB_REST_URL = process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL!
 
 export function usePackingSync() {
   const [items, setItems] = useState<PackingItem[]>([])
@@ -25,7 +26,12 @@ export function usePackingSync() {
         const saved = localStorage.getItem(STORAGE_KEY)
         const initial: PackingItem[] = saved ? JSON.parse(saved) : defaultPackingItems
         lastSavedRef.current = initial
-        set(dbRef, initial).catch(console.error)
+        // Use REST for initial seed write too
+        fetch(`${DB_REST_URL}/${DB_PATH}.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(initial),
+        }).catch(console.error)
         setItems(initial)
         setLoaded(true)
         setSynced(true)
@@ -62,8 +68,12 @@ export function usePackingSync() {
     lastSavedRef.current = newItems
     setItems(newItems)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems))
-    const dbRef = ref(db, DB_PATH)
-    set(dbRef, newItems).catch(console.error)
+    // Use REST API for writes — bypasses SDK WebSocket write issues
+    fetch(`${DB_REST_URL}/${DB_PATH}.json`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newItems),
+    }).catch(err => console.error('[sync] write failed:', err))
   }, [])
 
   return { items, loaded, synced, save }
