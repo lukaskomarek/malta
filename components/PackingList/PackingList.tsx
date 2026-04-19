@@ -56,6 +56,10 @@ export default function PackingList() {
     )
   }
 
+  const handleEdit = (id: string, label: string, note: string) => {
+    save(items.map((i) => i.id === id ? { ...i, label, note: note || undefined } : i))
+  }
+
   const handleAdd = (label: string, note: string, assignedTo: Person[], category: string) => {
     const newItem: PackingItem = {
       id: generateId(),
@@ -147,6 +151,7 @@ export default function PackingList() {
               onDelete={handleDelete}
               onTogglePerson={handleTogglePerson}
               onAdd={handleAdd}
+              onEdit={handleEdit}
             />
           )
         })}

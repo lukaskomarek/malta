@@ -12,6 +12,7 @@ interface Props {
   onDelete: (id: string) => void
   onTogglePerson: (id: string, person: Person) => void
   onAdd: (label: string, note: string, assignedTo: Person[], category: string) => void
+  onEdit: (id: string, label: string, note: string) => void
 }
 
 export default function CategorySection({
@@ -21,6 +22,7 @@ export default function CategorySection({
   onDelete,
   onTogglePerson,
   onAdd,
+  onEdit,
 }: Props) {
   const [collapsed, setCollapsed] = useState(false)
   const [showAddForm, setShowAddForm] = useState(false)
@@ -60,6 +62,7 @@ export default function CategorySection({
               onToggle={onToggle}
               onDelete={onDelete}
               onTogglePerson={onTogglePerson}
+              onEdit={onEdit}
             />
           ))}
           {showAddForm ? (
