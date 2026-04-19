@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { PackingItem, Person, CATEGORIES, PERSON_CONFIG } from '@/types'
-import { defaultPackingItems } from '@/data/packingData'
+import { useState, useEffect } from 'react'
+import { Person, CATEGORIES, PERSON_CONFIG } from '@/types'
+import { PackingItem } from '@/types'
+import { usePackingSync } from '@/lib/usePackingSync'
 import PersonFilter from './PersonFilter'
 import CategorySection from './CategorySection'
 
-const STORAGE_KEY = 'malta-packing-v1'
 const FILTER_KEY = 'malta-filter-v1'
 const ALL_PERSONS: Person[] = ['lukas', 'petra', 'deti']
 
@@ -21,21 +21,12 @@ function itemMatchesPerson(item: PackingItem, filter: Person | 'all'): boolean {
 }
 
 export default function PackingList() {
-  const [items, setItems] = useState<PackingItem[]>([])
+  const { items, loaded, synced, save } = usePackingSync()
   const [filter, setFilter] = useState<Person | 'all'>('all')
-  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY)
     const savedFilter = localStorage.getItem(FILTER_KEY) as Person | 'all' | null
-    setItems(saved ? JSON.parse(saved) : defaultPackingItems)
     setFilter(savedFilter ?? 'all')
-    setLoaded(true)
-  }, [])
-
-  const save = useCallback((newItems: PackingItem[]) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems))
-    setItems(newItems)
   }, [])
 
   const handleFilterChange = (f: Person | 'all') => {
@@ -92,7 +83,12 @@ export default function PackingList() {
   }
 
   if (!loaded) {
-    return <div className="py-12 text-center text-gray-400 text-sm">Načítám seznam…</div>
+    return (
+      <div className="py-16 flex flex-col items-center gap-3 text-gray-400">
+        <div className="w-6 h-6 border-2 border-[#1B6CA8] border-t-transparent rounded-full animate-spin" />
+        <span className="text-sm">Načítám seznam…</span>
+      </div>
+    )
   }
 
   const visibleItems = items.filter((i) => itemMatchesPerson(i, filter))
@@ -103,7 +99,15 @@ export default function PackingList() {
   return (
     <div className="space-y-4">
       <div className="space-y-3">
-        <PersonFilter selected={filter} onChange={handleFilterChange} />
+        <div className="flex items-center justify-between gap-2">
+          <PersonFilter selected={filter} onChange={handleFilterChange} />
+          {synced && (
+            <span className="text-xs text-green-600 flex items-center gap-1 flex-shrink-0" title="Synchronizováno">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
+              sync
+            </span>
+          )}
+        </div>
 
         {/* Progress bar */}
         <div className="space-y-1">
