@@ -1,4 +1,4 @@
-export type Person = 'lukas' | 'petra' | 'deti' | 'all'
+export type Person = 'lukas' | 'petra' | 'ema' | 'tomas' | 'all'
 
 export interface PackingItem {
   id: string
@@ -27,9 +27,12 @@ export const CATEGORIES: Category[] = [
   { id: 'apartman', label: 'Do apartmánu', icon: '🏠' },
 ]
 
+export const ALL_PERSONS: Person[] = ['lukas', 'petra', 'ema', 'tomas']
+
 export const PERSON_CONFIG: Record<Person, { label: string; color: string; initial: string }> = {
   lukas: { label: 'Lukáš', color: '#1B6CA8', initial: 'L' },
   petra: { label: 'Petra', color: '#2E7D32', initial: 'P' },
-  deti: { label: 'Děti', color: '#E65100', initial: 'D' },
-  all: { label: 'Vše', color: '#666', initial: 'V' },
+  ema:   { label: 'Ema',   color: '#9C27B0', initial: 'E' },
+  tomas: { label: 'Tomáš', color: '#E65100', initial: 'T' },
+  all:   { label: 'Vše',   color: '#555',    initial: 'V' },
 }

@@ -6,8 +6,8 @@ import { db } from './firebase'
 import { PackingItem } from '@/types'
 import { defaultPackingItems } from '@/data/packingData'
 
-const DB_PATH = 'packing/v1'
-const STORAGE_KEY = 'malta-packing-v1'
+const DB_PATH = 'packing/v2'
+const STORAGE_KEY = 'malta-packing-v2'
 
 export function usePackingSync() {
   const [items, setItems] = useState<PackingItem[]>([])

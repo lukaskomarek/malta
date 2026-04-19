@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Person, PERSON_CONFIG, CATEGORIES } from '@/types'
+import { Person, PERSON_CONFIG, CATEGORIES, ALL_PERSONS } from '@/types'
 
-const PERSONS: Person[] = ['lukas', 'petra', 'deti']
+const PERSONS: Person[] = ALL_PERSONS
 
 interface Props {
   categoryId: string
@@ -14,7 +14,7 @@ interface Props {
 export default function AddItemForm({ categoryId, onAdd, onCancel }: Props) {
   const [label, setLabel] = useState('')
   const [note, setNote] = useState('')
-  const [selected, setSelected] = useState<Person[]>(['lukas', 'petra', 'deti'])
+  const [selected, setSelected] = useState<Person[]>(ALL_PERSONS)
   const [category, setCategory] = useState(categoryId)
 
   const toggle = (p: Person) => {
@@ -26,7 +26,7 @@ export default function AddItemForm({ categoryId, onAdd, onCancel }: Props) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!label.trim()) return
-    onAdd(label.trim(), note.trim(), selected.length > 0 ? selected : ['lukas', 'petra', 'deti'], category)
+    onAdd(label.trim(), note.trim(), selected.length > 0 ? selected : ALL_PERSONS, category)
   }
 
   return (

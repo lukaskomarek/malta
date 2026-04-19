@@ -2,10 +2,8 @@
 
 import { useState } from 'react'
 import { Pencil, Trash2, Check } from 'lucide-react'
-import { PackingItem as PackingItemType, Person } from '@/types'
+import { PackingItem as PackingItemType, Person, ALL_PERSONS } from '@/types'
 import PersonAvatar from './PersonAvatar'
-
-const ALL_PERSONS: Person[] = ['lukas', 'petra', 'deti']
 
 interface Props {
   item: PackingItemType

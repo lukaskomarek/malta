@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { Trash2, RotateCcw, Wifi, WifiOff } from 'lucide-react'
-import { Person, CATEGORIES, PERSON_CONFIG } from '@/types'
+import { Person, CATEGORIES, PERSON_CONFIG, ALL_PERSONS } from '@/types'
 import { PackingItem } from '@/types'
 import { usePackingSync } from '@/lib/usePackingSync'
 import PersonFilter from './PersonFilter'
 import CategorySection from './CategorySection'
 
-const FILTER_KEY = 'malta-filter-v1'
-const ALL_PERSONS: Person[] = ['lukas', 'petra', 'deti']
+const FILTER_KEY = 'malta-filter-v2'
 
 function generateId() {
   return `item_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`
