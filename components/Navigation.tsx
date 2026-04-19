@@ -2,31 +2,32 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Luggage, Plane } from 'lucide-react'
 
 const tabs = [
-  { href: '/', label: 'Co balit', icon: '🧳' },
-  { href: '/info', label: 'Info o cestě', icon: '✈️' },
+  { href: '/', label: 'Co balit', icon: Luggage },
+  { href: '/info', label: 'Info o cestě', icon: Plane },
 ]
 
 export default function Navigation() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex border-t border-amber-50">
+    <nav className="flex">
       {tabs.map((tab) => {
         const active = pathname === tab.href
+        const Icon = tab.icon
         return (
           <Link
             key={tab.href}
             href={tab.href}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium transition-colors ${
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium transition-all border-b-2 ${
               active
-                ? 'border-b-2 text-[#1B6CA8]'
-                : 'text-gray-500 hover:text-gray-700'
+                ? 'border-[#1B6CA8] text-[#1B6CA8]'
+                : 'border-transparent text-stone-400 hover:text-stone-600'
             }`}
-            style={active ? { borderBottomColor: '#1B6CA8' } : {}}
           >
-            <span>{tab.icon}</span>
+            <Icon size={15} strokeWidth={active ? 2.5 : 2} />
             <span>{tab.label}</span>
           </Link>
         )

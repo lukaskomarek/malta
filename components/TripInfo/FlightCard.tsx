@@ -1,3 +1,5 @@
+import { Plane, Calendar, Clock, Ticket } from 'lucide-react'
+
 interface Flight {
   title: string
   flightNo: string
@@ -14,7 +16,7 @@ interface Flight {
 
 const flights: Flight[] = [
   {
-    title: 'Let 1 — Lukáš & Petra odlet',
+    title: 'Lukáš & Petra — odlet',
     flightNo: 'Ryanair FR1529',
     reservations: ['Lukáš: B34YTN', 'Petra: SQIETL'],
     date: 'Pátek 25. dubna 2025',
@@ -23,7 +25,7 @@ const flights: Flight[] = [
     duration: '2h 20min',
   },
   {
-    title: 'Let 2 — Lukáš zpět pro děti',
+    title: 'Lukáš zpět pro děti',
     flightNo: 'Ryanair FR1528',
     reservations: ['Lukáš: B34YTN'],
     date: 'Úterý 13. května 2025',
@@ -32,7 +34,7 @@ const flights: Flight[] = [
     duration: '2h 15min',
   },
   {
-    title: 'Let 3 — Lukáš + děti odlet',
+    title: 'Lukáš + děti — odlet',
     flightNo: 'Ryanair FR1529',
     reservations: ['Lukáš + děti: KPPYJL'],
     date: 'Čtvrtek 15. května 2025',
@@ -41,7 +43,7 @@ const flights: Flight[] = [
     duration: '2h 20min',
   },
   {
-    title: 'Let 4 — Všichni zpět',
+    title: 'Všichni zpět domů',
     flightNo: 'Ryanair FR1528',
     reservations: ['Petra: SQIETL', 'Lukáš + děti: KPPYJL'],
     date: 'Čtvrtek 22. května 2025',
@@ -60,65 +62,67 @@ const timeline = [
 
 export default function FlightCard() {
   return (
-    <div className="rounded-2xl border border-amber-100 bg-white shadow-sm overflow-hidden">
-      <div className="px-4 py-3 border-b border-amber-50 flex items-center gap-2">
-        <span className="text-lg">✈️</span>
-        <h2 className="font-bold text-gray-800" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
+    <div className="rounded-2xl bg-white border border-stone-200/80 shadow-sm overflow-hidden">
+      <div className="px-5 py-4 border-b border-stone-100 flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-xl bg-blue-100 flex items-center justify-center">
+          <Plane size={16} className="text-[#1B6CA8]" />
+        </div>
+        <h2 className="font-bold text-stone-800 text-base" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
           Lety
         </h2>
       </div>
-      <div className="p-4 space-y-4">
+
+      <div className="p-4 space-y-3">
         {flights.map((f, i) => (
-          <div key={i} className="rounded-xl border border-gray-100 bg-gray-50/60 p-3 space-y-2">
+          <div key={i} className="rounded-xl border border-stone-100 bg-stone-50/60 p-3.5 space-y-3">
             <div className="flex items-start justify-between gap-2">
-              <div>
-                <p className="text-xs font-semibold text-[#1B6CA8]">{f.title}</p>
-                <p className="text-xs text-gray-500">{f.flightNo}</p>
-              </div>
-              <span className="text-xs text-gray-400 text-right whitespace-nowrap">📅 {f.date}</span>
+              <p className="text-sm font-semibold text-stone-800">{f.title}</p>
+              <span className="text-xs text-stone-400 whitespace-nowrap flex items-center gap-1">
+                <Calendar size={11} /> {f.date}
+              </span>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <div className="text-center">
-                <p className="font-bold text-gray-800">{f.fromTime}</p>
-                <p className="text-xs text-gray-500">{f.fromCode}</p>
-                <p className="text-xs text-gray-400 hidden sm:block">{f.from}</p>
+
+            <div className="flex items-center gap-3">
+              <div className="text-center min-w-[48px]">
+                <p className="text-xl font-bold text-stone-800 leading-none">{f.fromTime}</p>
+                <p className="text-xs font-semibold text-[#1B6CA8] mt-0.5">{f.fromCode}</p>
               </div>
-              <div className="flex-1 flex flex-col items-center">
+              <div className="flex-1 flex flex-col items-center gap-0.5">
                 <div className="w-full flex items-center gap-1">
-                  <div className="flex-1 h-px bg-gray-300" />
-                  <span className="text-gray-400">✈</span>
-                  <div className="flex-1 h-px bg-gray-300" />
+                  <div className="flex-1 h-px bg-stone-200" />
+                  <Plane size={14} className="text-stone-400 rotate-90" />
+                  <div className="flex-1 h-px bg-stone-200" />
                 </div>
-                <p className="text-xs text-gray-400">⏱ {f.duration}</p>
+                <p className="text-xs text-stone-400 flex items-center gap-1">
+                  <Clock size={10} /> {f.duration}
+                </p>
               </div>
-              <div className="text-center">
-                <p className="font-bold text-gray-800">{f.toTime}</p>
-                <p className="text-xs text-gray-500">{f.toCode}</p>
-                <p className="text-xs text-gray-400 hidden sm:block">{f.to}</p>
+              <div className="text-center min-w-[48px]">
+                <p className="text-xl font-bold text-stone-800 leading-none">{f.toTime}</p>
+                <p className="text-xs font-semibold text-[#1B6CA8] mt-0.5">{f.toCode}</p>
               </div>
             </div>
+
             <div className="flex flex-wrap gap-1.5">
               {f.reservations.map((r, ri) => (
-                <span
-                  key={ri}
-                  className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700"
-                >
-                  🎫 {r}
+                <span key={ri} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                  <Ticket size={10} /> {r}
                 </span>
               ))}
             </div>
           </div>
         ))}
 
-        {/* Timeline */}
-        <div className="border-t border-amber-50 pt-3">
-          <p className="text-xs font-semibold text-gray-500 mb-2">📅 Timeline celé cesty</p>
-          <div className="space-y-1.5">
+        <div className="border-t border-stone-100 pt-3">
+          <p className="text-xs font-semibold text-stone-500 mb-2.5 flex items-center gap-1.5">
+            <Calendar size={12} /> Timeline celé cesty
+          </p>
+          <div className="space-y-2">
             {timeline.map((t, i) => (
-              <div key={i} className="flex gap-3 items-start text-xs">
-                <span className="font-semibold text-[#1B6CA8] whitespace-nowrap w-14">{t.date}</span>
-                <span className="text-gray-500 whitespace-nowrap w-10">{t.time}</span>
-                <span className="text-gray-700">{t.desc}</span>
+              <div key={i} className="flex gap-3 items-center text-xs">
+                <span className="font-bold text-[#1B6CA8] w-12 flex-shrink-0">{t.date}</span>
+                <span className="text-stone-400 w-10 flex-shrink-0">{t.time}</span>
+                <span className="text-stone-600">{t.desc}</span>
               </div>
             ))}
           </div>

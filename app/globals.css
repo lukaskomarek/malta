@@ -6,7 +6,7 @@
   --color-lukas: #1B6CA8;
   --color-petra: #2E7D32;
   --color-deti: #E65100;
-  --background: #FDFAF5;
+  --background: #F7F4EF;
   --foreground: #1a1a1a;
 }
 
@@ -30,16 +30,4 @@ h1, h2, h3 {
 
 * {
   box-sizing: border-box;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1ede8;
-}
-::-webkit-scrollbar-thumb {
-  background: #c9b99a;
-  border-radius: 3px;
 }

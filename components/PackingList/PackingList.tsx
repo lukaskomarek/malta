@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Trash2, RotateCcw, Wifi, WifiOff } from 'lucide-react'
 import { Person, CATEGORIES, PERSON_CONFIG } from '@/types'
 import { PackingItem } from '@/types'
 import { usePackingSync } from '@/lib/usePackingSync'
@@ -43,17 +44,13 @@ export default function PackingList() {
   }
 
   const handleTogglePerson = (id: string, person: Person) => {
-    save(
-      items.map((item) => {
-        if (item.id !== id) return item
-        const current: Person[] = item.assignedTo.includes('all')
-          ? [...ALL_PERSONS]
-          : (item.assignedTo as Person[])
-        const has = current.includes(person)
-        const next = has ? current.filter((p) => p !== person) : [...current, person]
-        return { ...item, assignedTo: next.length > 0 ? next : current }
-      })
-    )
+    save(items.map((item) => {
+      if (item.id !== id) return item
+      const current: Person[] = item.assignedTo.includes('all') ? [...ALL_PERSONS] : (item.assignedTo as Person[])
+      const has = current.includes(person)
+      const next = has ? current.filter((p) => p !== person) : [...current, person]
+      return { ...item, assignedTo: next.length > 0 ? next : current }
+    }))
   }
 
   const handleEdit = (id: string, label: string, note: string) => {
@@ -61,16 +58,11 @@ export default function PackingList() {
   }
 
   const handleAdd = (label: string, note: string, assignedTo: Person[], category: string) => {
-    const newItem: PackingItem = {
-      id: generateId(),
-      label,
-      note: note || undefined,
-      category,
-      assignedTo,
-      checked: false,
+    save([...items, {
+      id: generateId(), label, note: note || undefined,
+      category, assignedTo, checked: false,
       addedBy: filter !== 'all' ? filter : undefined,
-    }
-    save([...items, newItem])
+    }])
   }
 
   const handleDeleteChecked = () => {
@@ -88,8 +80,8 @@ export default function PackingList() {
 
   if (!loaded) {
     return (
-      <div className="py-16 flex flex-col items-center gap-3 text-gray-400">
-        <div className="w-6 h-6 border-2 border-[#1B6CA8] border-t-transparent rounded-full animate-spin" />
+      <div className="py-20 flex flex-col items-center gap-3 text-stone-400">
+        <div className="w-7 h-7 border-2 border-[#1B6CA8] border-t-transparent rounded-full animate-spin" />
         <span className="text-sm">Načítám seznam…</span>
       </div>
     )
@@ -102,46 +94,49 @@ export default function PackingList() {
 
   return (
     <div className="space-y-4">
+      {/* Filter + sync */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-3">
           <PersonFilter selected={filter} onChange={handleFilterChange} />
-          {synced && (
-            <span className="text-xs text-green-600 flex items-center gap-1 flex-shrink-0" title="Synchronizováno">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />
-              sync
+          <div className="flex items-center gap-1.5 flex-shrink-0">
+            {synced
+              ? <Wifi size={13} className="text-green-500" />
+              : <WifiOff size={13} className="text-stone-300" />
+            }
+            <span className={`text-xs font-medium ${synced ? 'text-green-600' : 'text-stone-300'}`}>
+              {synced ? 'sync' : '—'}
             </span>
-          )}
+          </div>
         </div>
 
-        {/* Progress bar */}
-        <div className="space-y-1">
+        {/* Progress */}
+        <div className="bg-white rounded-2xl border border-stone-200/80 px-4 py-3 space-y-2 shadow-sm">
           <div className="flex justify-between items-center">
-            <span className="text-xs text-gray-500">
-              Zabaleno: <strong>{checkedCount} / {totalCount}</strong>
+            <span className="text-xs text-stone-500">
+              Zabaleno&nbsp;
+              <strong className="text-stone-700">{checkedCount} / {totalCount}</strong>
+              {filter !== 'all' && (
+                <span className="text-stone-400 ml-1">({PERSON_CONFIG[filter as Person]?.label})</span>
+              )}
             </span>
-            <span className="text-xs font-semibold" style={{ color: '#1B6CA8' }}>{progress}%</span>
+            <span className="text-sm font-bold" style={{ color: '#1B6CA8' }}>{progress}%</span>
           </div>
-          <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+          <div className="h-2 rounded-full bg-stone-100 overflow-hidden">
             <div
-              className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${progress}%`, backgroundColor: '#1B6CA8' }}
+              className="h-full rounded-full transition-all duration-700"
+              style={{ width: `${progress}%`, backgroundColor: progress === 100 ? '#2E7D32' : '#1B6CA8' }}
             />
           </div>
-          {filter !== 'all' && (
-            <p className="text-xs text-gray-400">
-              Zobrazeno: {PERSON_CONFIG[filter as Person]?.label}
-            </p>
-          )}
         </div>
       </div>
 
-      {/* Category sections */}
-      <div className="space-y-3">
+      {/* Categories */}
+      <div className="space-y-2.5">
         {CATEGORIES.map((cat) => {
-          const catItems = visibleItems.filter((i) => i.category === cat.id)
-          if (catItems.length === 0 && filter !== 'all') return null
           const allCatItems = items.filter((i) => i.category === cat.id)
-          const displayItems = filter === 'all' ? allCatItems : catItems
+          const visibleCatItems = allCatItems.filter((i) => itemMatchesPerson(i, filter))
+          if (visibleCatItems.length === 0 && filter !== 'all') return null
+          const displayItems = filter === 'all' ? allCatItems : visibleCatItems
           return (
             <CategorySection
               key={cat.id}
@@ -157,19 +152,19 @@ export default function PackingList() {
         })}
       </div>
 
-      {/* Bottom action bar */}
-      <div className="sticky bottom-4 flex gap-3 pt-2">
+      {/* Action bar */}
+      <div className="sticky bottom-4 flex gap-2.5 pt-1">
         <button
           onClick={handleDeleteChecked}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-xl border border-red-200 text-red-500 bg-white hover:bg-red-50 transition-colors shadow-sm"
+          className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold rounded-2xl border border-red-200 text-red-500 bg-white hover:bg-red-50 transition-colors shadow-sm"
         >
-          <span>🗑</span> Smazat zaškrtnuté
+          <Trash2 size={15} strokeWidth={2} /> Smazat zaškrtnuté
         </button>
         <button
           onClick={handleReset}
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-xl border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 transition-colors shadow-sm"
+          className="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold rounded-2xl border border-stone-200 text-stone-600 bg-white hover:bg-stone-50 transition-colors shadow-sm"
         >
-          <span>↺</span> Začít znovu
+          <RotateCcw size={15} strokeWidth={2} /> Začít znovu
         </button>
       </div>
     </div>

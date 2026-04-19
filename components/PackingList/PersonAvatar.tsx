@@ -12,7 +12,7 @@ interface Props {
 export default function PersonAvatar({ person, size = 'sm', onClick, faded }: Props) {
   if (person === 'all') return null
   const config = PERSON_CONFIG[person]
-  const dim = size === 'sm' ? 20 : 26
+  const dim = size === 'sm' ? 22 : 28
   return (
     <button
       onClick={onClick}
@@ -20,19 +20,19 @@ export default function PersonAvatar({ person, size = 'sm', onClick, faded }: Pr
       style={{
         width: dim,
         height: dim,
-        backgroundColor: faded ? '#ccc' : config.color,
-        borderRadius: 4,
-        color: '#fff',
+        backgroundColor: faded ? 'transparent' : config.color,
+        borderRadius: 6,
+        color: faded ? '#bbb' : '#fff',
         fontSize: size === 'sm' ? 10 : 12,
         fontWeight: 700,
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
         cursor: onClick ? 'pointer' : 'default',
-        transition: 'opacity 0.15s',
-        opacity: faded ? 0.4 : 1,
-        border: 'none',
+        transition: 'all 0.15s',
+        border: faded ? '1.5px solid #e2e8f0' : 'none',
         flexShrink: 0,
+        letterSpacing: '0.01em',
       }}
     >
       {config.initial}

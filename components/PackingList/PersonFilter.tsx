@@ -16,22 +16,20 @@ const filters: { value: Person | 'all'; label: string }[] = [
 
 export default function PersonFilter({ selected, onChange }: Props) {
   return (
-    <div className="flex gap-2 flex-wrap">
+    <div className="flex gap-1.5 flex-wrap">
       {filters.map((f) => {
         const isActive = selected === f.value
-        const color = f.value !== 'all' ? PERSON_CONFIG[f.value as Person].color : '#555'
+        const color = f.value !== 'all' ? PERSON_CONFIG[f.value as Person].color : '#1B6CA8'
         return (
           <button
             key={f.value}
             onClick={() => onChange(f.value)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all border ${
-              isActive ? 'text-white shadow-sm' : 'bg-white text-gray-600 hover:border-gray-300'
-            }`}
-            style={
+            className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all ${
               isActive
-                ? { backgroundColor: color, borderColor: color }
-                : { borderColor: '#e5e7eb' }
-            }
+                ? 'text-white shadow-sm'
+                : 'bg-white text-stone-500 border border-stone-200 hover:border-stone-300 hover:text-stone-700'
+            }`}
+            style={isActive ? { backgroundColor: color } : {}}
           >
             {f.label}
           </button>

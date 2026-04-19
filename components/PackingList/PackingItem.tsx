@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { PackingItem as PackingItemType, Person, PERSON_CONFIG } from '@/types'
+import { Pencil, Trash2, Check } from 'lucide-react'
+import { PackingItem as PackingItemType, Person } from '@/types'
 import PersonAvatar from './PersonAvatar'
 
 const ALL_PERSONS: Person[] = ['lukas', 'petra', 'deti']
@@ -36,34 +37,34 @@ export default function PackingItem({ item, onToggle, onDelete, onTogglePerson, 
 
   if (editing) {
     return (
-      <div className="px-2 py-2 rounded-lg bg-blue-50 border border-blue-100 space-y-1.5">
+      <div className="mx-1 my-1 px-3 py-2.5 rounded-xl bg-blue-50 border border-blue-200 space-y-2">
         <input
           autoFocus
           value={editLabel}
           onChange={(e) => setEditLabel(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') handleSave(); if (e.key === 'Escape') handleCancel() }}
-          className="w-full px-2.5 py-1 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#1B6CA8]/30 bg-white"
+          className="w-full px-3 py-1.5 text-sm rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-[#1B6CA8]/25 bg-white"
           placeholder="Název"
         />
         <input
           value={editNote}
           onChange={(e) => setEditNote(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') handleSave(); if (e.key === 'Escape') handleCancel() }}
-          className="w-full px-2.5 py-1 text-sm rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#1B6CA8]/30 bg-white"
+          className="w-full px-3 py-1.5 text-sm rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-[#1B6CA8]/25 bg-white"
           placeholder="Poznámka (volitelné)"
         />
         <div className="flex gap-2">
           <button
             onClick={handleSave}
             disabled={!editLabel.trim()}
-            className="flex-1 py-1 text-xs font-medium text-white rounded-lg disabled:opacity-40"
+            className="flex-1 py-1.5 text-xs font-semibold text-white rounded-lg disabled:opacity-40 transition-opacity flex items-center justify-center gap-1.5"
             style={{ backgroundColor: '#1B6CA8' }}
           >
-            Uložit
+            <Check size={13} strokeWidth={2.5} /> Uložit
           </button>
           <button
             onClick={handleCancel}
-            className="px-3 py-1 text-xs text-gray-500 rounded-lg border border-gray-200 bg-white hover:bg-gray-50"
+            className="px-4 py-1.5 text-xs text-stone-500 rounded-lg border border-stone-200 bg-white hover:bg-stone-50"
           >
             Zrušit
           </button>
@@ -74,69 +75,63 @@ export default function PackingItem({ item, onToggle, onDelete, onTogglePerson, 
 
   return (
     <div
-      className={`flex items-center gap-2 py-2 px-2 rounded-lg transition-colors ${
-        hover ? 'bg-amber-50/60' : ''
-      } ${item.checked ? 'opacity-50' : ''}`}
+      className={`flex items-center gap-2.5 py-2 px-3 rounded-xl transition-colors ${
+        hover ? 'bg-stone-50' : ''
+      } ${item.checked ? 'opacity-40' : ''}`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
+      {/* Checkbox */}
       <button
         onClick={() => onToggle(item.id)}
-        className={`w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+        className={`w-5 h-5 rounded-md border-2 flex-shrink-0 flex items-center justify-center transition-all ${
           item.checked
             ? 'border-[#1B6CA8] bg-[#1B6CA8]'
-            : 'border-gray-300 hover:border-[#1B6CA8]'
+            : 'border-stone-300 hover:border-[#1B6CA8]'
         }`}
       >
-        {item.checked && (
-          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-        )}
+        {item.checked && <Check size={11} strokeWidth={3} className="text-white" />}
       </button>
 
+      {/* Label */}
       <div className="flex-1 min-w-0">
-        <span className={`text-sm ${item.checked ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+        <span className={`text-sm ${item.checked ? 'line-through text-stone-400' : 'text-stone-800'}`}>
           {item.label}
         </span>
         {item.note && (
-          <span className="text-xs text-gray-400 ml-1.5">({item.note})</span>
+          <span className="text-xs text-stone-400 ml-1.5 italic">{item.note}</span>
         )}
       </div>
 
+      {/* Person avatars */}
       <div className="flex items-center gap-1 flex-shrink-0">
-        {ALL_PERSONS.map((p) => {
-          const assigned = assignedPersons.includes(p)
-          return (
-            <PersonAvatar
-              key={p}
-              person={p}
-              faded={!assigned}
-              onClick={() => onTogglePerson(item.id, p)}
-            />
-          )
-        })}
+        {ALL_PERSONS.map((p) => (
+          <PersonAvatar
+            key={p}
+            person={p}
+            faded={!assignedPersons.includes(p)}
+            onClick={() => onTogglePerson(item.id, p)}
+          />
+        ))}
       </div>
 
-      <button
-        onClick={() => setEditing(true)}
-        className={`text-gray-300 hover:text-[#1B6CA8] transition-opacity text-sm leading-none ml-0.5 ${
-          hover ? 'opacity-100' : 'opacity-0'
-        }`}
-        title="Upravit"
-      >
-        ✎
-      </button>
-
-      <button
-        onClick={() => onDelete(item.id)}
-        className={`text-gray-300 hover:text-red-400 transition-opacity text-lg leading-none ${
-          hover ? 'opacity-100' : 'opacity-0'
-        }`}
-        title="Smazat"
-      >
-        ×
-      </button>
+      {/* Action buttons */}
+      <div className={`flex items-center gap-0.5 transition-opacity ${hover ? 'opacity-100' : 'opacity-0'}`}>
+        <button
+          onClick={() => setEditing(true)}
+          className="w-6 h-6 flex items-center justify-center rounded-lg text-stone-400 hover:text-[#1B6CA8] hover:bg-blue-50 transition-colors"
+          title="Upravit"
+        >
+          <Pencil size={13} />
+        </button>
+        <button
+          onClick={() => onDelete(item.id)}
+          className="w-6 h-6 flex items-center justify-center rounded-lg text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+          title="Smazat"
+        >
+          <Trash2 size={13} />
+        </button>
+      </div>
     </div>
   )
 }
