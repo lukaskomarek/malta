@@ -16,7 +16,7 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Malta 2025 🌊',
+  title: 'Malta 2026 🌊',
   description: 'Rodinná dovolená na Maltě — balicí seznam a info o cestě',
 }
 
@@ -36,7 +36,7 @@ export default function RootLayout({
                   className="text-xl font-bold leading-tight"
                   style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1B6CA8' }}
                 >
-                  Malta 2025
+                  Malta 2026
                 </h1>
                 <p className="text-xs text-amber-700">25. dubna – 22. května</p>
               </div>
