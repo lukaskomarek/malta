@@ -13,27 +13,39 @@ export function usePackingSync() {
   const [items, setItems] = useState<PackingItem[]>([])
   const [loaded, setLoaded] = useState(false)
   const [synced, setSynced] = useState(false)
-  const skipNextRef = useRef(false)
+  const lastSavedRef = useRef<PackingItem[]>([])
 
   useEffect(() => {
     const dbRef = ref(db, DB_PATH)
 
     const unsubscribe = onValue(dbRef, (snapshot) => {
-      // přeskočit echo po vlastním save()
-      if (skipNextRef.current) {
-        skipNextRef.current = false
+      const rawData = snapshot.val()
+
+      if (!rawData) {
+        const saved = localStorage.getItem(STORAGE_KEY)
+        const initial: PackingItem[] = saved ? JSON.parse(saved) : defaultPackingItems
+        lastSavedRef.current = initial
+        set(dbRef, initial).catch(console.error)
+        setItems(initial)
+        setLoaded(true)
+        setSynced(true)
         return
       }
-      const data = snapshot.val()
-      if (data) {
+
+      const data: PackingItem[] = Array.isArray(rawData) ? rawData : Object.values(rawData)
+
+      // Detect own echo: same count, same IDs, same checked states
+      const last = lastSavedRef.current
+      const isEcho =
+        last.length > 0 &&
+        data.length === last.length &&
+        data.every((item, i) => item.id === last[i]?.id && item.checked === last[i]?.checked)
+
+      if (!isEcho) {
         setItems(data)
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-      } else {
-        const saved = localStorage.getItem(STORAGE_KEY)
-        const initial = saved ? JSON.parse(saved) : defaultPackingItems
-        set(dbRef, initial)
-        setItems(initial)
       }
+
       setLoaded(true)
       setSynced(true)
     }, (error) => {
@@ -47,15 +59,11 @@ export function usePackingSync() {
   }, [])
 
   const save = useCallback((newItems: PackingItem[]) => {
+    lastSavedRef.current = newItems
     setItems(newItems)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems))
-    // označit že příští Firebase callback je naše vlastní echo — ignorovat
-    skipNextRef.current = true
     const dbRef = ref(db, DB_PATH)
-    set(dbRef, newItems).catch((err) => {
-      console.error(err)
-      skipNextRef.current = false
-    })
+    set(dbRef, newItems).catch(console.error)
   }, [])
 
   return { items, loaded, synced, save }
