@@ -28,8 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* Header */}
           <header className="sticky top-0 z-50">
-            {/* Hero band */}
-            <div style={{ background: 'linear-gradient(135deg, #0e3d6e 0%, #1B6CA8 60%, #2a8fd4 100%)' }}>
+            {/* Hero band — full width gradient */}
+            <div style={{ background: 'linear-gradient(120deg, #0e3d6e 0%, #1B6CA8 50%, #2a8fd4 100%)' }}>
+              {/* Content row — max-width centered */}
               <div className="max-w-2xl mx-auto px-5 pt-4 pb-3 flex items-center gap-4">
 
                 {/* Wave logo */}
@@ -57,7 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </div>
 
                 {/* Sun SVG */}
-                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" opacity="0.9">
+                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" opacity="0.9" className="flex-shrink-0">
                   <circle cx="19" cy="19" r="8" fill="#fcd27a"/>
                   <circle cx="19" cy="19" r="6" fill="#f7b731"/>
                   {Array.from({ length: 8 }).map((_, i) => {
@@ -73,15 +74,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </svg>
               </div>
 
-              {/* Wave divider */}
-              <svg viewBox="0 0 390 28" preserveAspectRatio="none" style={{ display: 'block', height: 28 }}>
-                <path d="M0 14 C65 28 130 0 195 14 C260 28 325 0 390 14 L390 28 L0 28 Z" fill="white"/>
-              </svg>
+              {/* Wave divider — truly full width */}
+              <div style={{ lineHeight: 0 }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 32" preserveAspectRatio="none"
+                  style={{ display: 'block', width: '100%', height: 32 }}>
+                  <path d="M0 16 C120 32 240 0 360 16 C480 32 600 0 720 16 C840 32 960 0 1080 16 C1200 32 1320 0 1440 16 L1440 32 L0 32 Z" fill="white"/>
+                </svg>
+              </div>
             </div>
 
             {/* Navigation */}
             <div className="bg-white border-b border-stone-200/80 shadow-sm">
-              <Navigation />
+              <div className="max-w-2xl mx-auto">
+                <Navigation />
+              </div>
             </div>
           </header>
 
