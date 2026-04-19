@@ -1,0 +1,35 @@
+export type Person = 'lukas' | 'petra' | 'deti' | 'all'
+
+export interface PackingItem {
+  id: string
+  label: string
+  note?: string
+  category: string
+  assignedTo: Person[]
+  checked: boolean
+  addedBy?: string
+}
+
+export interface Category {
+  id: string
+  label: string
+  icon: string
+}
+
+export const CATEGORIES: Category[] = [
+  { id: 'obleceni', label: 'Oblečení', icon: '👗' },
+  { id: 'plaz', label: 'Pláž & moře', icon: '🏊' },
+  { id: 'zdravi', label: 'Zdraví & lékárnička', icon: '💊' },
+  { id: 'elektronika', label: 'Elektronika', icon: '🔌' },
+  { id: 'hygiena', label: 'Hygiena & kosmetika', icon: '🧴' },
+  { id: 'doklady', label: 'Doklady & peníze', icon: '📄' },
+  { id: 'deti', label: 'Pro děti', icon: '🎒' },
+  { id: 'apartman', label: 'Do apartmánu', icon: '🏠' },
+]
+
+export const PERSON_CONFIG: Record<Person, { label: string; color: string; initial: string }> = {
+  lukas: { label: 'Lukáš', color: '#1B6CA8', initial: 'L' },
+  petra: { label: 'Petra', color: '#2E7D32', initial: 'P' },
+  deti: { label: 'Děti', color: '#E65100', initial: 'D' },
+  all: { label: 'Vše', color: '#666', initial: 'V' },
+}
