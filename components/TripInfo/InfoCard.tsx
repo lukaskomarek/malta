@@ -1,7 +1,8 @@
-import { Plug, Euro, Bus, Sun, Phone, Cross, Globe, ClipboardList } from 'lucide-react'
+import { Plug, Euro, Bus, Sun, Phone, Cross, Globe, ClipboardList, Car } from 'lucide-react'
 
 const infoItems = [
   { icon: Plug, label: 'Zásuvky', value: 'Typ G (britské) — nutný adaptér!', highlight: true },
+  { icon: Car, label: 'Dálniční známka SK', value: '30denní · SPZ 6J85265 · 25.4.–24.5.2026 · €17,10 zaplaceno', highlight: false },
   { icon: Euro, label: 'Měna', value: 'Euro (€)' },
   { icon: Bus, label: 'MHD', value: 'Tallinja karta — €25 registrace, jízdy zdarma' },
   { icon: Sun, label: 'Počasí', value: '22–28 °C, slunečno, moře ~20 °C' },

@@ -155,4 +155,9 @@ export const defaultPackingItems: PackingItem[] = [
   { id: 'ap-s-4', label: 'Skládací nákupní taška', category: 'apartman', assignedTo: ['all'], checked: false },
   { id: 'ap-s-5', label: 'Cestovní lékárnička', category: 'apartman', assignedTo: ['all'], checked: false },
   { id: 'ap-s-6', label: 'Nůžky / párátka', category: 'apartman', assignedTo: ['all'], checked: false },
+
+  // ── JÍDLO & PITÍ ────────────────────────────────────────────────────────
+  { id: 'ji-s-1', label: 'Čaj', category: 'jidlo', assignedTo: ['all'], checked: false },
+  { id: 'ji-s-2', label: 'Káva', category: 'jidlo', assignedTo: ['all'], checked: false },
+  { id: 'ji-s-3', label: 'Koření', category: 'jidlo', assignedTo: ['all'], checked: false },
 ]

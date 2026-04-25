@@ -25,6 +25,7 @@ export const CATEGORIES: Category[] = [
   { id: 'doklady', label: 'Doklady & peníze', icon: '📄' },
   { id: 'deti', label: 'Pro děti', icon: '🎒' },
   { id: 'apartman', label: 'Do apartmánu', icon: '🏠' },
+  { id: 'jidlo', label: 'Jídlo & pití', icon: '🍵' },
 ]
 
 export const ALL_PERSONS: Person[] = ['lukas', 'petra', 'ema', 'tomas']

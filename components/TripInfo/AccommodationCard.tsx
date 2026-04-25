@@ -59,11 +59,15 @@ export default function AccommodationCard() {
           <div className="space-y-1.5 text-sm">
             <div className="flex gap-2.5 items-start">
               <Car size={14} className="text-stone-400 mt-0.5 flex-shrink-0" />
-              <span><strong>Uber, Bolt nebo ECabs</strong> — nejpohodlnější</span>
+              <span><strong>Uber, Bolt nebo ECabs</strong> — ~35 min, ~€35</span>
             </div>
             <div className="flex gap-2.5 items-start">
               <Bus size={14} className="text-stone-400 mt-0.5 flex-shrink-0" />
-              <span>Zastávka <strong>TONN</strong> (100 m) — linky 41, 42, 49, 221–223, 225, 250</span>
+              <div>
+                <p><strong>TD1</strong> (Airport Direct) — každou hodinu, ~€3</p>
+                <p className="text-stone-400 text-xs mt-0.5">Výstup: Bugibba nebo San Pawl il-Baħar → zastávka <strong>TONN</strong> (100 m) linky 41, 42, 49…</p>
+                <p className="text-stone-400 text-xs">Celkem ~65 min + krátká chůze</p>
+              </div>
             </div>
           </div>
         </div>
