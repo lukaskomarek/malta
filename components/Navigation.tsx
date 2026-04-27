@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation'
 import { Luggage, Plane, Images } from 'lucide-react'
 
 const tabs = [
+  { href: '/galerie', label: 'Fotogalerie', icon: Images },
   { href: '/', label: 'Co balit', icon: Luggage },
   { href: '/info', label: 'Info o cestě', icon: Plane },
-  { href: '/galerie', label: 'Fotogalerie', icon: Images },
 ]
 
 export default function Navigation() {
