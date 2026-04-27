@@ -68,23 +68,26 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 mb-3">
               {capitalize(group.label)}
             </h2>
-            <div className="grid grid-cols-3 gap-1">
+            <div className="columns-2 gap-1">
               {group.photos.map(photo => {
                 const globalIdx = photos.indexOf(photo)
                 return (
-                  <button
-                    key={photo.guid}
-                    onClick={() => open(globalIdx)}
-                    className="relative aspect-square overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo.thumbUrl}
-                      alt=""
-                      className="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
-                      loading="lazy"
-                    />
-                  </button>
+                  <div key={photo.guid} className="break-inside-avoid mb-1">
+                    <button
+                      onClick={() => open(globalIdx)}
+                      className="w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={photo.thumbUrl}
+                        alt=""
+                        className="w-full h-auto block transition-opacity duration-200 hover:opacity-90"
+                        loading="lazy"
+                        width={photo.width}
+                        height={photo.height}
+                      />
+                    </button>
+                  </div>
                 )
               })}
             </div>
