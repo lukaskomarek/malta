@@ -1,10 +1,20 @@
-import { getPhotos } from '@/lib/icloud'
+import { getGalleryData } from '@/lib/icloud'
 import GalleryClient from '@/components/Gallery/GalleryClient'
 
 export const metadata = { title: 'Fotogalerie · Malta 2026' }
 
+function formatLastUpdated(iso: string): string {
+  const d = new Date(iso)
+  return d.toLocaleString('cs-CZ', {
+    day: 'numeric',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
 export default async function GaleriePage() {
-  const photos = await getPhotos()
+  const { photos, lastUpdated } = await getGalleryData()
 
   return (
     <div>
@@ -19,6 +29,13 @@ export default async function GaleriePage() {
           <span className="text-xs text-stone-400">{photos.length} fotek</span>
         )}
       </div>
+
+      {lastUpdated && (
+        <p className="text-xs text-stone-400 mb-4">
+          Naposledy přidáno: {formatLastUpdated(lastUpdated)}
+        </p>
+      )}
+
       <GalleryClient photos={photos} />
     </div>
   )

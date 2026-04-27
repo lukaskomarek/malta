@@ -12,6 +12,7 @@ type RawDerivative = {
 type RawPhoto = {
   photoGuid: string
   dateCreated: string
+  batchDateCreated: string
   mediaAssetType: string
   derivatives: Record<string, RawDerivative>
 }
@@ -29,6 +30,11 @@ export type Photo = {
   fullUrl: string
   width: number
   height: number
+}
+
+export type GalleryData = {
+  photos: Photo[]
+  lastUpdated: string | null  // ISO string — max batchDateCreated across all photos
 }
 
 async function fetchWebstream(): Promise<{ host: string; photos: RawPhoto[] }> {
@@ -94,17 +100,24 @@ function pickDerivative(derivatives: Record<string, RawDerivative>, minWidth: nu
   return all.find(d => d.width >= minWidth) ?? all[all.length - 1]
 }
 
-export const getPhotos = unstable_cache(
-  async (): Promise<Photo[]> => {
+export const getGalleryData = unstable_cache(
+  async (): Promise<GalleryData> => {
     try {
       const { host, photos } = await fetchWebstream()
-      if (!photos.length) return []
+      if (!photos.length) return { photos: [], lastUpdated: null }
 
       const onlyPhotos = photos.filter(p => p.mediaAssetType !== 'video')
       const photoGuids = onlyPhotos.map(p => p.photoGuid)
       const items = await fetchAssetUrls(host, photoGuids)
 
-      return onlyPhotos
+      // Latest batchDateCreated = when photos were last added to the album
+      const lastUpdated = onlyPhotos
+        .map(p => p.batchDateCreated)
+        .filter(Boolean)
+        .sort()
+        .at(-1) ?? null
+
+      const mapped = onlyPhotos
         .map((photo): Photo | null => {
           const thumb = pickDerivative(photo.derivatives, 600)
           const full = pickDerivative(photo.derivatives, 2000)
@@ -125,11 +138,13 @@ export const getPhotos = unstable_cache(
         })
         .filter((p): p is Photo => p !== null)
         .sort((a, b) => b.date.localeCompare(a.date))
+
+      return { photos: mapped, lastUpdated }
     } catch (err) {
       console.error('iCloud fetch failed:', err)
-      return []
+      return { photos: [], lastUpdated: null }
     }
   },
-  ['icloud-photos-v6'],
+  ['icloud-photos-v7'],
   { revalidate: 3600 }
 )
