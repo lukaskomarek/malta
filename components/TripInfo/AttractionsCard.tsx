@@ -11,7 +11,17 @@ type Attraction = {
 const attractions: Attraction[] = [
   { name: 'Splash & Fun Water Park', desc: 'Největší aquapark na Maltě', url: 'https://www.splash.mt/', kids: true },
   { name: 'Mediterraneo Marine Park', desc: 'Delfíni, lachtani, mořský svět', url: 'https://mediterraneo.mt/', kids: true },
-  { name: 'Popeye Village', desc: 'Filmová vesnice, aktivity u moře', url: 'https://popeyemalta.com/index.html', kids: true },
+  {
+    name: 'Popeye Village',
+    desc: 'Filmová vesnice, aktivity u moře',
+    url: 'https://popeyemalta.com/index.html',
+    kids: true,
+    detail: [
+      '🕘 Otevřeno 9:30–17:30 (mid-sezóna od 1. 5.)',
+      '🎟 Dospělí €18 · Děti 3–12 let €14',
+      '✅ Nafukovací atrakce, mini golf, kino, animace, popcorn zdarma',
+    ],
+  },
   { name: 'Malta Fun Trains', desc: 'Turistické vláčky po ostrově', url: 'https://maltafuntrains.com/', kids: true },
   { name: 'Playmobil FunPark', desc: 'Téměř 4000 m² zábavního parku', url: 'https://www.playmobilmalta.com/', kids: true },
   { name: 'Malta National Aquarium', desc: 'Národní akvárium s mořskými živočichy', url: 'https://www.aquarium.com.mt/', kids: true },
