@@ -1,6 +1,14 @@
 import { Map, ExternalLink, Baby } from 'lucide-react'
 
-const attractions = [
+type Attraction = {
+  name: string
+  desc: string
+  url: string
+  kids: boolean
+  detail?: string[]
+}
+
+const attractions: Attraction[] = [
   { name: 'Splash & Fun Water Park', desc: 'Největší aquapark na Maltě', url: 'https://www.splash.mt/', kids: true },
   { name: 'Mediterraneo Marine Park', desc: 'Delfíni, lachtani, mořský svět', url: 'https://mediterraneo.mt/', kids: true },
   { name: 'Popeye Village', desc: 'Filmová vesnice, aktivity u moře', url: 'https://popeyemalta.com/index.html', kids: true },
@@ -8,7 +16,19 @@ const attractions = [
   { name: 'Playmobil FunPark', desc: 'Téměř 4000 m² zábavního parku', url: 'https://www.playmobilmalta.com/', kids: true },
   { name: 'Malta National Aquarium', desc: 'Národní akvárium s mořskými živočichy', url: 'https://www.aquarium.com.mt/', kids: true },
   { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
-  { name: 'Malta Fireworks Festival', desc: '30. dubna — Grand Finale v Grand Harbour, Valletta (25. ročník). Hlediště: parkoviště u Pixkerija, Quarry Wharf Road.', url: 'https://www.maltafireworksfestival.com/', kids: false },
+  {
+    name: 'Malta Fireworks Festival',
+    desc: '30. dubna · Grand Finale · Grand Harbour, Valletta · 25. ročník',
+    url: 'https://www.maltafireworksfestival.com/',
+    kids: false,
+    detail: [
+      '🕣 Začátek 20:30, konec ~22:30',
+      '👁 Zdarma z bastionů (Upper Barrakka Gardens)',
+      '🎟 Placené hlediště ~5 € (Quarry Wharf Road u Pixkerija)',
+      '🚌 Doporučena MHD, přijet 90 min předem',
+      '🧥 Večer fouká od moře — vzít bundu',
+    ],
+  },
 ]
 
 export default function AttractionsCard() {
@@ -33,7 +53,14 @@ export default function AttractionsCard() {
                 </span>
               )}
             </div>
-            <p className="text-xs text-stone-400 mb-2.5">{a.desc}</p>
+            <p className="text-xs text-stone-400 mb-2">{a.desc}</p>
+            {a.detail && (
+              <ul className="mb-2.5 space-y-0.5">
+                {a.detail.map((line, j) => (
+                  <li key={j} className="text-xs text-stone-500">{line}</li>
+                ))}
+              </ul>
+            )}
             <a href={a.url} target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-semibold text-[#1B6CA8] hover:text-[#145a8c] transition-colors">
               Otevřít <ExternalLink size={11} />
