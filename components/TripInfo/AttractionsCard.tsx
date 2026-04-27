@@ -23,9 +23,10 @@ const attractions: Attraction[] = [
     kids: false,
     detail: [
       '🕣 Začátek 20:30, konec ~22:30',
-      '👁 Zdarma z bastionů (Upper Barrakka Gardens)',
-      '🎟 Placené hlediště ~5 € (Quarry Wharf Road u Pixkerija)',
-      '🚌 Doporučena MHD, přijet 90 min předem',
+      '👁 Zdarma z bastionů — nejlepší výhled: Upper Barrakka Gardens',
+      '🚌 Z TONN linka 41 / 42 / 49 → výstup Valletta City Gate (B6), ~41 min',
+      '🚶 Od City Gate pěšky ~10–15 min na Upper Barrakka Gardens',
+      '⏰ Přijet 90 min předem, očekává se 150 000 lidí',
       '🧥 Večer fouká od moře — vzít bundu',
     ],
   },
