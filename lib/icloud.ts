@@ -130,6 +130,6 @@ export const getPhotos = unstable_cache(
       return []
     }
   },
-  ['icloud-photos-v5'],
+  ['icloud-photos-v6'],
   { revalidate: 3600 }
 )
