@@ -2,11 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Luggage, Plane } from 'lucide-react'
+import { Luggage, Plane, Images } from 'lucide-react'
 
 const tabs = [
   { href: '/', label: 'Co balit', icon: Luggage },
   { href: '/info', label: 'Info o cestě', icon: Plane },
+  { href: '/galerie', label: 'Fotogalerie', icon: Images },
 ]
 
 export default function Navigation() {
