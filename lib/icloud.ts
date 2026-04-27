@@ -100,7 +100,7 @@ export const getPhotos = unstable_cache(
       const { host, photos } = await fetchWebstream()
       if (!photos.length) return []
 
-      const onlyPhotos = photos.filter(p => p.mediaAssetType === 'image')
+      const onlyPhotos = photos.filter(p => p.mediaAssetType !== 'video')
       const photoGuids = onlyPhotos.map(p => p.photoGuid)
       const items = await fetchAssetUrls(host, photoGuids)
 
@@ -130,6 +130,6 @@ export const getPhotos = unstable_cache(
       return []
     }
   },
-  ['icloud-photos-v4'],
+  ['icloud-photos-v5'],
   { revalidate: 3600 }
 )
