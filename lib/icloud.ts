@@ -12,6 +12,7 @@ type RawDerivative = {
 type RawPhoto = {
   photoGuid: string
   dateCreated: string
+  mediaAssetType: string
   derivatives: Record<string, RawDerivative>
 }
 
@@ -99,10 +100,11 @@ export const getPhotos = unstable_cache(
       const { host, photos } = await fetchWebstream()
       if (!photos.length) return []
 
-      const photoGuids = photos.map(p => p.photoGuid)
+      const onlyPhotos = photos.filter(p => p.mediaAssetType === 'image')
+      const photoGuids = onlyPhotos.map(p => p.photoGuid)
       const items = await fetchAssetUrls(host, photoGuids)
 
-      return photos
+      return onlyPhotos
         .map((photo): Photo | null => {
           const thumb = pickDerivative(photo.derivatives, 600)
           const full = pickDerivative(photo.derivatives, 2000)
@@ -128,6 +130,6 @@ export const getPhotos = unstable_cache(
       return []
     }
   },
-  ['icloud-photos-v3'],
+  ['icloud-photos-v4'],
   { revalidate: 3600 }
 )
