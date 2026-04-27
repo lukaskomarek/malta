@@ -27,6 +27,18 @@ const attractions: Attraction[] = [
   { name: 'Malta National Aquarium', desc: 'Národní akvárium s mořskými živočichy', url: 'https://www.aquarium.com.mt/', kids: true },
   { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
   {
+    name: 'Marsaxlokk',
+    desc: 'Největší rybářská vesnice Malty — barevné loďky luzzu, trh, mořské plody',
+    url: 'https://www.maltauncovered.com/malta-island/marsaxlokk-fishing-village/',
+    kids: true,
+    detail: [
+      '🐟 Nedělní rybí trh — nejlepší den na návštěvu',
+      '🏊 St. Peter\'s Pool — přírodní bazén, 3 km od vesnice',
+      '🍽 Seafood restaurace přímo u přístavu (tip: Tartarun)',
+      '🚌 Z TONN: linka 41 → Valletta (B6), přestup na 81 / 85 nebo v neděli TD10 → Marsaxlokk (~1,5 h)',
+    ],
+  },
+  {
     name: 'Malta Fireworks Festival',
     desc: '30. dubna · Grand Finale · Grand Harbour, Valletta · 25. ročník',
     url: 'https://www.maltafireworksfestival.com/',
