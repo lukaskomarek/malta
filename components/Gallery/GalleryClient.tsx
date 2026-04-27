@@ -68,26 +68,25 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 mb-3">
               {capitalize(group.label)}
             </h2>
-            <div className="columns-2 gap-1">
+            <div className="flex flex-col gap-1">
               {group.photos.map(photo => {
                 const globalIdx = photos.indexOf(photo)
                 return (
-                  <div key={photo.guid} className="break-inside-avoid mb-1">
-                    <button
-                      onClick={() => open(globalIdx)}
-                      className="w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={photo.thumbUrl}
-                        alt=""
-                        className="w-full h-auto block transition-opacity duration-200 hover:opacity-90"
-                        loading="lazy"
-                        width={photo.width}
-                        height={photo.height}
-                      />
-                    </button>
-                  </div>
+                  <button
+                    key={photo.guid}
+                    onClick={() => open(globalIdx)}
+                    className="w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={photo.thumbUrl}
+                      alt=""
+                      className="w-full h-auto block transition-opacity duration-200 hover:opacity-90"
+                      loading="lazy"
+                      width={photo.width}
+                      height={photo.height}
+                    />
+                  </button>
                 )
               })}
             </div>
