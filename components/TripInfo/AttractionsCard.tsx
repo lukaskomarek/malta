@@ -8,6 +8,7 @@ const attractions = [
   { name: 'Playmobil FunPark', desc: 'Téměř 4000 m² zábavního parku', url: 'https://www.playmobilmalta.com/', kids: true },
   { name: 'Malta National Aquarium', desc: 'Národní akvárium s mořskými živočichy', url: 'https://www.aquarium.com.mt/', kids: true },
   { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
+  { name: 'Malta Fireworks Festival', desc: 'Největší ohňostrojový festival na Maltě', url: 'https://www.maltafireworksfestival.com/', kids: false },
 ]
 
 export default function AttractionsCard() {

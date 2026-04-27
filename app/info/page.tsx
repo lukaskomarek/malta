@@ -7,10 +7,10 @@ import AttractionsCard from '@/components/TripInfo/AttractionsCard'
 export default function InfoPage() {
   return (
     <div className="space-y-4">
+      <AttractionsCard />
       <FlightCard />
       <AccommodationCard />
       <InfoCard />
-      <AttractionsCard />
       <LinksCard />
     </div>
   )
