@@ -63,16 +63,24 @@ async function fetchWebstream(): Promise<{ host: string; photos: RawPhoto[] }> {
 }
 
 async function fetchAssetUrls(host: string, photoGuids: string[]): Promise<Record<string, AssetItem>> {
-  const res = await fetch(
-    `https://${host}/${ALBUM_TOKEN}/sharedstreams/webasseturls`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Origin': 'https://www.icloud.com' },
-      body: JSON.stringify({ photoGuids }),
-    }
-  )
-  const data = await res.json()
-  return data.items ?? {}
+  const BATCH = 25
+  const allItems: Record<string, AssetItem> = {}
+
+  for (let i = 0; i < photoGuids.length; i += BATCH) {
+    const batch = photoGuids.slice(i, i + BATCH)
+    const res = await fetch(
+      `https://${host}/${ALBUM_TOKEN}/sharedstreams/webasseturls`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Origin': 'https://www.icloud.com' },
+        body: JSON.stringify({ photoGuids: batch }),
+      }
+    )
+    const data = await res.json()
+    Object.assign(allItems, data.items ?? {})
+  }
+
+  return allItems
 }
 
 function buildUrl(item: AssetItem): string {
@@ -120,6 +128,6 @@ export const getPhotos = unstable_cache(
       return []
     }
   },
-  ['icloud-photos-v2'],
+  ['icloud-photos-v3'],
   { revalidate: 3600 }
 )
