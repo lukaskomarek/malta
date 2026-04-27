@@ -6,7 +6,7 @@ import { Luggage, Plane, Images } from 'lucide-react'
 
 const tabs = [
   { href: '/galerie', label: 'Fotogalerie', icon: Images },
-  { href: '/', label: 'Co balit', icon: Luggage },
+  { href: '/baleni', label: 'Co balit', icon: Luggage },
   { href: '/info', label: 'Info o cestě', icon: Plane },
 ]
 

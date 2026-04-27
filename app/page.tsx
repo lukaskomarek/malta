@@ -1,5 +1,5 @@
-import PackingList from '@/components/PackingList/PackingList'
+import { redirect } from 'next/navigation'
 
 export default function HomePage() {
-  return <PackingList />
+  redirect('/galerie')
 }
