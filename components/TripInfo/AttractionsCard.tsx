@@ -27,6 +27,19 @@ const attractions: Attraction[] = [
   { name: 'Malta National Aquarium', desc: 'Národní akvárium s mořskými živočichy', url: 'https://www.aquarium.com.mt/', kids: true },
   { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
   {
+    name: 'Mdina & Rabat',
+    desc: '„Město ticha" — středověké hradby, barokní paláce, výhled na půl Malty',
+    url: 'https://www.grumpycamel.com/things-to-do-in-mdina/',
+    kids: false,
+    detail: [
+      '⛪ Mdina: St. Paul\'s Cathedral, Bastion Square (panorama)',
+      '🏛 Rabat (5 min pěšky): katakombу, St. Paul\'s Grotto, Domus Romana',
+      '⏱ Stačí půlden, vstup do města zdarma',
+      '🌅 Nejlepší ráno nebo při západu slunce (odpoledne davy)',
+      '🚌 Z TONN: linka 41 → Valletta (B6), přestup 51/52/56 → Mdina (Howard Gardens) · ~1 h',
+    ],
+  },
+  {
     name: 'Marsaxlokk',
     desc: 'Největší rybářská vesnice Malty — barevné loďky luzzu, trh, mořské plody',
     url: 'https://www.maltauncovered.com/malta-island/marsaxlokk-fishing-village/',
