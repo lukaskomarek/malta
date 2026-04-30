@@ -9,7 +9,19 @@ type Attraction = {
 }
 
 const attractions: Attraction[] = [
-  { name: 'Splash & Fun Water Park', desc: 'Největší aquapark na Maltě', url: 'https://www.splash.mt/', kids: true },
+  {
+    name: 'Splash & Fun Water Park',
+    desc: 'Největší aquapark na Maltě — otevírá přesně 16. 5. (první den vašeho pobytu!)',
+    url: 'https://www.splash.mt/',
+    kids: true,
+    detail: [
+      '🕙 Otevřeno 10:00–18:00 (low season 16. 5. – 19. 6.)',
+      '🎟 Dospělí €26,50 · Děti 3–12 let €18 · Do 3 let zdarma',
+      '💶 Family Pack 2+2: €75 (vs. jednotlivě €89)',
+      '🗓 Před 16. 5. zavřeno — otevírá v den příjezdu',
+      '🚌 Z TONN: linka 41 směr Mellieħa → zastávka Splash & Fun · ~5 min',
+    ],
+  },
   {
     name: 'Mediterraneo Marine Park',
     desc: 'Delfíni, lachtani, papoušci, plazi — vše v ceně vstupného',
@@ -26,17 +38,46 @@ const attractions: Attraction[] = [
   },
   {
     name: 'Popeye Village',
-    desc: 'Filmová vesnice, aktivity u moře',
+    desc: 'Filmová vesnice z roku 1980 — aktivity u moře, animace, mini golf',
     url: 'https://popeyemalta.com/index.html',
     kids: true,
     detail: [
-      '🕘 Otevřeno 9:30–17:30 (mid-sezóna od 1. 5.)',
-      '🎟 Dospělí €18 · Děti 3–12 let €14',
+      '🕘 Otevřeno 9:30–17:30 (mid-sezóna 1. 5. – 31. 5.)',
+      '🎟 Dospělí €18 · Děti 3–12 let €14 · Do 3 let zdarma',
+      '💶 2 dospělí + 2 děti: €64 (žádný family bundle)',
       '✅ Nafukovací atrakce, mini golf, kino, animace, popcorn zdarma',
+      '💡 Celý květen mid-sezóna — cena stejná 1.–31. 5.',
+      '🚌 Z TONN: linka 41/221 → Mellieħa, pak taxi ~10 min do Anchor Bay · ~45 min',
     ],
   },
-  { name: 'Malta Fun Trains', desc: 'Turistické vláčky po ostrově', url: 'https://maltafuntrains.com/', kids: true },
-  { name: 'Playmobil FunPark', desc: 'Téměř 4000 m² zábavního parku', url: 'https://www.playmobilmalta.com/', kids: true },
+  {
+    name: 'Malta Fun Trains',
+    desc: 'Turistické vláčky — Valletta a Mdina/Rabat okruh, každých 30–60 min',
+    url: 'https://maltafuntrains.com/',
+    kids: true,
+    detail: [
+      '🕙 Denně 10:00–16:00 (kromě Vánoc a Nového roku)',
+      '🎟 Dospělí €7 · Děti do 12 let €5 · Nad 12 let €7',
+      '💶 2 dospělí + 2 děti: €24 za jeden okruh',
+      '🚃 Valletta tour: ~30 min, odjezd každých 30 min od St. John\'s Cathedral',
+      '🚃 Rabat/Mdina tour: ~30 min, odjezd každou hodinu od Domus Romana',
+      '💳 Platba hotově nebo kartou u vlačku, bez rezervace',
+      '🚌 Z TONN: linka 41 → Valletta (B6) · ~40 min',
+    ],
+  },
+  {
+    name: 'Playmobil FunPark',
+    desc: 'Obří herní park přímo ve fabrice Playmobil — vstup téměř zadarmo',
+    url: 'https://www.playmobilmalta.com/',
+    kids: true,
+    detail: [
+      '🕙 Po–Čt 10:00–16:00 · Pá–Ne a svátky 10:00–18:00',
+      '🎟 Děti 1–12 let €5 · Dospělí €3 · Do 1 roku zdarma',
+      '💶 2 dospělí + 2 děti: €16 — nejlevnější výlet na seznamu!',
+      '📍 Ħal Far Industrial Estate (jih Malty) — daleko od TONN',
+      '🚌 Z TONN: linka 41 → Valletta (B6), přestup 82 → Ħal Far · ~1,5 h',
+    ],
+  },
   {
     name: 'Malta National Aquarium',
     desc: 'Národní akvárium — 20 000 m², 5 zón, mořský svět i plazi · přímo v Qawra',
@@ -44,8 +85,9 @@ const attractions: Attraction[] = [
     kids: true,
     detail: [
       '🕙 Otevřeno denně 10:00–20:00 (poslední vstup 19:30)',
-      '🎟 2 dospělí + 2 děti: family bundle €50,90 · online −10% → ~€45,81',
-      '💡 Jednotlivě by vyšlo €55,60 — bundle ušetří ~€5',
+      '🎟 Online: Dospělí €13,95 · Děti 4–12 let €8,90 · Do 4 let zdarma',
+      '💶 2 dospělí + 2 děti online: ~€45,70 (u pokladny €55,60)',
+      '💡 Kupujte online — ušetříte ~€10 oproti pokladně',
       '🚶 Pěšky z TONN (~10 min), Triq it-Trunciera, Qawra',
     ],
   },
@@ -57,7 +99,7 @@ const attractions: Attraction[] = [
     kids: false,
     detail: [
       '⛪ Mdina: St. Paul\'s Cathedral, Bastion Square (panorama)',
-      '🏛 Rabat (5 min pěšky): katakombу, St. Paul\'s Grotto, Domus Romana',
+      '🏛 Rabat (5 min pěšky): katakomby, St. Paul\'s Grotto, Domus Romana',
       '⏱ Stačí půlden, vstup do města zdarma',
       '🌅 Nejlepší ráno nebo při západu slunce (odpoledne davy)',
       '🚌 Z TONN: linka 41 → Valletta (B6), přestup 51/52/56 → Mdina (Howard Gardens) · ~1 h',
