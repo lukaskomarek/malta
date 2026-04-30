@@ -10,7 +10,20 @@ type Attraction = {
 
 const attractions: Attraction[] = [
   { name: 'Splash & Fun Water Park', desc: 'Největší aquapark na Maltě', url: 'https://www.splash.mt/', kids: true },
-  { name: 'Mediterraneo Marine Park', desc: 'Delfíni, lachtani, mořský svět', url: 'https://mediterraneo.mt/', kids: true },
+  {
+    name: 'Mediterraneo Marine Park',
+    desc: 'Delfíni, lachtani, papoušci, plazi — vše v ceně vstupného',
+    url: 'https://mediterraneo.mt/',
+    kids: true,
+    detail: [
+      '🕙 Otevřeno denně 9:30–17:00 (od 30. 3.)',
+      '🎟 Dospělí €18 · Děti 3–12 let €13 · Do 3 let zdarma',
+      '💶 2 dospělí + 2 děti: €62 (žádný family bundle)',
+      '🐬 Show: lachtani 11:00 & 16:15 · delfíni 12:30 · papoušci 11:45 & 15:00 · plazi 14:30',
+      '⚠️ Rezervace povinná min. 2 dny předem, platba kartou',
+      '🚌 Z TONN: linka 41 → Baħar iċ-Ċagħaq (Splash & Fun zastávka) · ~10 min',
+    ],
+  },
   {
     name: 'Popeye Village',
     desc: 'Filmová vesnice, aktivity u moře',
