@@ -9,6 +9,22 @@ type Attraction = {
 }
 
 const attractions: Attraction[] = [
+  // ── Konkrétní datum ────────────────────────────────────────────────────────
+  {
+    name: 'Malta Fireworks Festival',
+    desc: '30. dubna · Grand Finale · Grand Harbour, Valletta · 25. ročník',
+    url: 'https://www.maltafireworksfestival.com/',
+    kids: false,
+    detail: [
+      '🕣 Začátek 20:30, konec ~22:30',
+      '👁 Zdarma z bastionů — nejlepší výhled: Upper Barrakka Gardens',
+      '🚌 Z TONN linka 41 / 42 / 49 → výstup Valletta City Gate (B6), ~41 min',
+      '🚶 Od City Gate pěšky ~10–15 min na Upper Barrakka Gardens',
+      '⏰ Přijet 90 min předem, očekává se 150 000 lidí',
+      '🧥 Večer fouká od moře — vzít bundu',
+    ],
+  },
+  // ── 16. 5. (sobota) — příjezd ─────────────────────────────────────────────
   {
     name: 'Splash & Fun Water Park',
     desc: 'Největší aquapark na Maltě — otevírá přesně 16. 5. (první den vašeho pobytu!)',
@@ -22,6 +38,20 @@ const attractions: Attraction[] = [
       '🚌 Z TONN: linka 41 směr Mellieħa → zastávka Splash & Fun · ~5 min',
     ],
   },
+  // ── 17. 5. (neděle) — rybí trh ────────────────────────────────────────────
+  {
+    name: 'Marsaxlokk',
+    desc: 'Největší rybářská vesnice Malty — barevné loďky luzzu, trh, mořské plody',
+    url: 'https://www.maltauncovered.com/malta-island/marsaxlokk-fishing-village/',
+    kids: true,
+    detail: [
+      '🐟 Nedělní rybí trh — nejlepší den na návštěvu (17. 5.)',
+      '🏊 St. Peter\'s Pool — přírodní bazén, 3 km od vesnice',
+      '🍽 Seafood restaurace přímo u přístavu (tip: Tartarun)',
+      '🚌 Z TONN: linka 41 → Valletta (B6), přestup na 81 / 85 nebo v neděli TD10 → Marsaxlokk (~1,5 h)',
+    ],
+  },
+  // ── Kdykoli 16.–21. 5. ────────────────────────────────────────────────────
   {
     name: 'Mediterraneo Marine Park',
     desc: 'Delfíni, lachtani, papoušci, plazi — vše v ceně vstupného',
@@ -51,18 +81,16 @@ const attractions: Attraction[] = [
     ],
   },
   {
-    name: 'Malta Fun Trains',
-    desc: 'Turistické vláčky — Valletta a Mdina/Rabat okruh, každých 30–60 min',
-    url: 'https://maltafuntrains.com/',
+    name: 'Malta National Aquarium',
+    desc: 'Národní akvárium — 20 000 m², 5 zón, mořský svět i plazi · přímo v Qawra',
+    url: 'https://www.aquarium.com.mt/',
     kids: true,
     detail: [
-      '🕙 Denně 10:00–16:00 (kromě Vánoc a Nového roku)',
-      '🎟 Dospělí €7 · Děti do 12 let €5 · Nad 12 let €7',
-      '💶 2 dospělí + 2 děti: €24 za jeden okruh',
-      '🚃 Valletta tour: ~30 min, odjezd každých 30 min od St. John\'s Cathedral',
-      '🚃 Rabat/Mdina tour: ~30 min, odjezd každou hodinu od Domus Romana',
-      '💳 Platba hotově nebo kartou u vlačku, bez rezervace',
-      '🚌 Z TONN: linka 41 → Valletta (B6) · ~40 min',
+      '🕙 Otevřeno denně 10:00–20:00 (poslední vstup 19:30)',
+      '🎟 Online: Dospělí €13,95 · Děti 4–12 let €8,90 · Do 4 let zdarma',
+      '💶 2 dospělí + 2 děti online: ~€45,70 (u pokladny €55,60)',
+      '💡 Kupujte online — ušetříte ~€10 oproti pokladně',
+      '🚶 Pěšky z TONN (~10 min), Triq it-Trunciera, Qawra',
     ],
   },
   {
@@ -79,19 +107,20 @@ const attractions: Attraction[] = [
     ],
   },
   {
-    name: 'Malta National Aquarium',
-    desc: 'Národní akvárium — 20 000 m², 5 zón, mořský svět i plazi · přímo v Qawra',
-    url: 'https://www.aquarium.com.mt/',
+    name: 'Malta Fun Trains',
+    desc: 'Turistické vláčky — Valletta a Mdina/Rabat okruh, každých 30–60 min',
+    url: 'https://maltafuntrains.com/',
     kids: true,
     detail: [
-      '🕙 Otevřeno denně 10:00–20:00 (poslední vstup 19:30)',
-      '🎟 Online: Dospělí €13,95 · Děti 4–12 let €8,90 · Do 4 let zdarma',
-      '💶 2 dospělí + 2 děti online: ~€45,70 (u pokladny €55,60)',
-      '💡 Kupujte online — ušetříte ~€10 oproti pokladně',
-      '🚶 Pěšky z TONN (~10 min), Triq it-Trunciera, Qawra',
+      '🕙 Denně 10:00–16:00 (kromě Vánoc a Nového roku)',
+      '🎟 Dospělí €7 · Děti do 12 let €5 · Nad 12 let €7',
+      '💶 2 dospělí + 2 děti: €24 za jeden okruh',
+      '🚃 Valletta tour: ~30 min, odjezd každých 30 min od St. John\'s Cathedral',
+      '🚃 Rabat/Mdina tour: ~30 min, odjezd každou hodinu od Domus Romana',
+      '💳 Platba hotově nebo kartou u vlačku, bez rezervace',
+      '🚌 Z TONN: linka 41 → Valletta (B6) · ~40 min',
     ],
   },
-  { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
   {
     name: 'Mdina & Rabat',
     desc: '„Město ticha" — středověké hradby, barokní paláce, výhled na půl Malty',
@@ -105,32 +134,7 @@ const attractions: Attraction[] = [
       '🚌 Z TONN: linka 41 → Valletta (B6), přestup 51/52/56 → Mdina (Howard Gardens) · ~1 h',
     ],
   },
-  {
-    name: 'Marsaxlokk',
-    desc: 'Největší rybářská vesnice Malty — barevné loďky luzzu, trh, mořské plody',
-    url: 'https://www.maltauncovered.com/malta-island/marsaxlokk-fishing-village/',
-    kids: true,
-    detail: [
-      '🐟 Nedělní rybí trh — nejlepší den na návštěvu',
-      '🏊 St. Peter\'s Pool — přírodní bazén, 3 km od vesnice',
-      '🍽 Seafood restaurace přímo u přístavu (tip: Tartarun)',
-      '🚌 Z TONN: linka 41 → Valletta (B6), přestup na 81 / 85 nebo v neděli TD10 → Marsaxlokk (~1,5 h)',
-    ],
-  },
-  {
-    name: 'Malta Fireworks Festival',
-    desc: '30. dubna · Grand Finale · Grand Harbour, Valletta · 25. ročník',
-    url: 'https://www.maltafireworksfestival.com/',
-    kids: false,
-    detail: [
-      '🕣 Začátek 20:30, konec ~22:30',
-      '👁 Zdarma z bastionů — nejlepší výhled: Upper Barrakka Gardens',
-      '🚌 Z TONN linka 41 / 42 / 49 → výstup Valletta City Gate (B6), ~41 min',
-      '🚶 Od City Gate pěšky ~10–15 min na Upper Barrakka Gardens',
-      '⏰ Přijet 90 min předem, očekává se 150 000 lidí',
-      '🧥 Večer fouká od moře — vzít bundu',
-    ],
-  },
+  { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
 ]
 
 export default function AttractionsCard() {
