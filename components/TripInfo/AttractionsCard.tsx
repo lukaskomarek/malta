@@ -24,7 +24,18 @@ const attractions: Attraction[] = [
   },
   { name: 'Malta Fun Trains', desc: 'Turistické vláčky po ostrově', url: 'https://maltafuntrains.com/', kids: true },
   { name: 'Playmobil FunPark', desc: 'Téměř 4000 m² zábavního parku', url: 'https://www.playmobilmalta.com/', kids: true },
-  { name: 'Malta National Aquarium', desc: 'Národní akvárium s mořskými živočichy', url: 'https://www.aquarium.com.mt/', kids: true },
+  {
+    name: 'Malta National Aquarium',
+    desc: 'Národní akvárium — 20 000 m², 5 zón, mořský svět i plazi · přímo v Qawra',
+    url: 'https://www.aquarium.com.mt/',
+    kids: true,
+    detail: [
+      '🕙 Otevřeno denně 10:00–20:00 (poslední vstup 19:30)',
+      '🎟 2 dospělí + 2 děti: family bundle €50,90 · online −10% → ~€45,81',
+      '💡 Jednotlivě by vyšlo €55,60 — bundle ušetří ~€5',
+      '🚶 Pěšky z TONN (~10 min), Triq it-Trunciera, Qawra',
+    ],
+  },
   { name: 'Malta s dětmi (průvodce)', desc: 'Tipy a rady pro rodiny s dětmi', url: 'https://www.cestujzababku.cz/malta-s-detmi/', kids: true },
   {
     name: 'Mdina & Rabat',
