@@ -53,6 +53,40 @@ const attractions: Attraction[] = [
       '🚌 Z TONN: linka 41 směr Mellieħa → zastávka Splash & Fun · ~5 min',
     ],
   },
+  // ── Výlety na ostrovy ─────────────────────────────────────────────────────
+  {
+    name: 'Comino — Blue Lagoon',
+    desc: 'Tyrkysová laguna, nejkrásnější voda Malty — ideálně celý den',
+    url: 'https://bluelagoon.mt/',
+    kids: true,
+    detail: [
+      '⚠️ NUTNÉ předem: QR přístupový pas (zdarma) → bluelagooncomino.mt',
+      '🕗 Časové sloty: ráno 8:00–13:00 · odpoledne 13:30–17:30 · západ slunce 18:00–22:00',
+      '🚢 Varianta A — přímo z Bugibby: trajekt/výlet ~€20–25 dospělí · viz visitbluelagoonmalta.com',
+      '🚢 Varianta B — z Ċirkewwy: autobus 221 z Bugibby → Ċirkewwa, trajekt Co-Op €15/dospělý · €7/dítě (zpáteční)',
+      '💶 2 dospělí + 2 děti (var. B): ~€44 (cesta) + bus',
+      '⏱ Plavba z Ċirkewwy: ~25–35 min',
+      '🏊 Mimo Blue Lagoon: Crystal Lagoon (klidnější), St. Mary\'s Tower, pěší trasy',
+      '💡 Ráno nejméně lidí — první trajekt nejlepší volba',
+    ],
+  },
+  {
+    name: 'Gozo — ostrov klidu',
+    desc: 'Sesterský ostrov Malty — NOVÝ rychloferibot přímo z Bugibby od 5. 5. 2026',
+    url: 'https://gozohighspeed.com/',
+    kids: true,
+    detail: [
+      '🚢 Rychloferibot z Bugibby → Mġarr (Gozo): ~30 min · pouze pěší pasažéři',
+      '🎟 Z Bugibby: Dospělí €6,50 · Děti 4–10 let €3 · Do 3 let zdarma (jedna cesta)',
+      '💶 2 dospělí + 2 děti: €19 tam, €19 zpět = €38 celkem',
+      '🕗 Léto (22 spojů denně): odjezdy z Bugibby ~každou hodinu od ~9:15',
+      '🏰 Victoria Citadela: středověká pevnost, panorama, vstup zdarma',
+      '🌊 Dwejra — Inland Sea: lodní výlet přírodním tunelem do moře (~€5/os.)',
+      '🏛 Ġgantija: nejstarší volně stojící stavby světa (3600 př. n. l.) · €9 dospělí · €4,50 děti',
+      '🏖 Ramla Bay: červený písek, nejhezčí pláž Goza',
+      '💡 Po připlutí do Mġarr: taxi nebo místní autobus do Victoria (~15 min)',
+    ],
+  },
   // ── 17. 5. (neděle) — rybí trh ────────────────────────────────────────────
   {
     name: 'Marsaxlokk',
