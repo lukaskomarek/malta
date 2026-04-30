@@ -24,6 +24,21 @@ const attractions: Attraction[] = [
       '🧥 Večer fouká od moře — vzít bundu',
     ],
   },
+  {
+    name: 'Fotbal: YoHealth Malta Premier — Final Four',
+    desc: 'Playoff o titul — semifinále a finále na Národním stadionu v Ta\' Qali',
+    url: 'https://www.maltapremierleague.mt/',
+    kids: false,
+    detail: [
+      '📅 Termín: ~9.–17. 5. (program vyjde po posledním kole 2. 5.)',
+      '🏟 Národní stadion Ta\' Qali (National Stadium)',
+      '🎟 Playoff vstupné: €15 · Dospělí · Děti do 16 let zdarma',
+      '💶 2 dospělí: €30 · děti gratis',
+      '📲 Lístky online: tickets.mfa.com.mt nebo na pokladně',
+      '🚌 Z TONN: linka 41 → Valletta (B6), přestup 51/52/56 → Ta\' Qali · ~1 h',
+      '💡 Program sleduj na maltapremierleague.mt nebo maltafootball.com',
+    ],
+  },
   // ── 16. 5. (sobota) — příjezd ─────────────────────────────────────────────
   {
     name: 'Splash & Fun Water Park',
