@@ -35,7 +35,7 @@ type Lightbox = { dayLabel: string; index: number }
 
 export default function GalleryClient({ photos }: { photos: Photo[] }) {
   const groups = groupByDay(photos)
-  const lastDayLabel = groups[groups.length - 1]?.label ?? ''
+  const lastDayLabel = groups[0]?.label ?? ''
 
   const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set([lastDayLabel]))
   const [showAllDays, setShowAllDays] = useState<Set<string>>(new Set())
