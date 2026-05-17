@@ -1,8 +1,10 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import type { Photo } from '@/lib/icloud'
+
+const INITIAL_VISIBLE = 10
 
 type DayGroup = {
   label: string
@@ -29,16 +31,36 @@ function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-export default function GalleryClient({ photos }: { photos: Photo[] }) {
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+type Lightbox = { dayLabel: string; index: number }
 
-  const open = useCallback((idx: number) => setLightboxIndex(idx), [])
-  const close = useCallback(() => setLightboxIndex(null), [])
-  const prev = useCallback(() => setLightboxIndex(i => (i !== null ? Math.max(0, i - 1) : null)), [])
-  const next = useCallback(() => setLightboxIndex(i => (i !== null ? Math.min(photos.length - 1, i + 1) : null)), [photos.length])
+export default function GalleryClient({ photos }: { photos: Photo[] }) {
+  const groups = groupByDay(photos)
+  const lastDayLabel = groups[groups.length - 1]?.label ?? ''
+
+  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set([lastDayLabel]))
+  const [showAllDays, setShowAllDays] = useState<Set<string>>(new Set())
+  const [lightbox, setLightbox] = useState<Lightbox | null>(null)
+
+  const currentGroup = lightbox ? groups.find(g => g.label === lightbox.dayLabel) ?? null : null
+  const currentPhoto = currentGroup ? currentGroup.photos[lightbox!.index] : null
+
+  const close = useCallback(() => setLightbox(null), [])
+
+  const prev = useCallback(() => {
+    setLightbox(l => l && l.index > 0 ? { ...l, index: l.index - 1 } : l)
+  }, [])
+
+  const next = useCallback(() => {
+    setLightbox(l => {
+      if (!l) return l
+      const group = groups.find(g => g.label === l.dayLabel)
+      if (!group) return l
+      return l.index < group.photos.length - 1 ? { ...l, index: l.index + 1 } : l
+    })
+  }, [groups])
 
   useEffect(() => {
-    if (lightboxIndex === null) return
+    if (lightbox === null) return
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close()
       if (e.key === 'ArrowLeft') prev()
@@ -46,7 +68,16 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [lightboxIndex, close, prev, next])
+  }, [lightbox, close, prev, next])
+
+  const toggleDay = (label: string) => {
+    setExpandedDays(prev => {
+      const next = new Set(prev)
+      if (next.has(label)) next.delete(label)
+      else next.add(label)
+      return next
+    })
+  }
 
   if (!photos.length) {
     return (
@@ -57,49 +88,80 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
     )
   }
 
-  const groups = groupByDay(photos)
-  const currentPhoto = lightboxIndex !== null ? photos[lightboxIndex] : null
-
   return (
     <>
-      <div className="space-y-6">
-        {groups.map(group => (
-          <section key={group.label}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 mb-3">
-              {capitalize(group.label)}
-            </h2>
-            <div className="flex flex-col gap-1">
-              {group.photos.map(photo => {
-                const globalIdx = photos.indexOf(photo)
-                return (
-                  <button
-                    key={photo.guid}
-                    onClick={() => open(globalIdx)}
-                    className="w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={photo.thumbUrl}
-                      alt=""
-                      className="w-full h-auto block transition-opacity duration-200 hover:opacity-90"
-                      loading="lazy"
-                      width={photo.width}
-                      height={photo.height}
-                    />
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ))}
+      <div className="space-y-1">
+        {groups.map(group => {
+          const isExpanded = expandedDays.has(group.label)
+          const isLastDay = group.label === lastDayLabel
+          const showAll = showAllDays.has(group.label)
+          const visiblePhotos = isLastDay && !showAll
+            ? group.photos.slice(0, INITIAL_VISIBLE)
+            : group.photos
+          const hiddenCount = group.photos.length - INITIAL_VISIBLE
+          const hasMore = isLastDay && !showAll && hiddenCount > 0
+
+          return (
+            <section key={group.label}>
+              <button
+                onClick={() => toggleDay(group.label)}
+                className="w-full flex items-center justify-between py-2.5 text-left group"
+              >
+                <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 group-hover:text-stone-600 transition-colors">
+                  {capitalize(group.label)}
+                </h2>
+                <span className="text-xs text-stone-400 flex items-center gap-1.5 group-hover:text-stone-600 transition-colors">
+                  {group.photos.length} {group.photos.length === 1 ? 'fotka' : group.photos.length < 5 ? 'fotky' : 'fotek'}
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                  />
+                </span>
+              </button>
+
+              {isExpanded && (
+                <div className="flex flex-col gap-1 pb-4">
+                  {visiblePhotos.map((photo) => {
+                    const dayIdx = group.photos.indexOf(photo)
+                    return (
+                      <button
+                        key={photo.guid}
+                        onClick={() => setLightbox({ dayLabel: group.label, index: dayIdx })}
+                        className="w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={photo.thumbUrl}
+                          alt=""
+                          className="w-full h-auto block transition-opacity duration-200 hover:opacity-90"
+                          loading="lazy"
+                          width={photo.width}
+                          height={photo.height}
+                        />
+                      </button>
+                    )
+                  })}
+
+                  {hasMore && (
+                    <button
+                      onClick={() => setShowAllDays(prev => new Set([...prev, group.label]))}
+                      className="mt-2 w-full py-2.5 rounded-sm border border-stone-200 text-xs text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors"
+                    >
+                      Zobrazit více fotek ({hiddenCount})
+                    </button>
+                  )}
+                </div>
+              )}
+            </section>
+          )
+        })}
       </div>
 
-      {currentPhoto && lightboxIndex !== null && (
+      {currentPhoto && lightbox !== null && currentGroup && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
           onClick={close}
         >
-          {/* Close */}
           <button
             onClick={close}
             className="absolute top-4 right-4 text-white/70 hover:text-white p-2"
@@ -108,8 +170,7 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             <X size={24} />
           </button>
 
-          {/* Prev */}
-          {lightboxIndex > 0 && (
+          {lightbox.index > 0 && (
             <button
               onClick={e => { e.stopPropagation(); prev() }}
               className="absolute left-3 text-white/70 hover:text-white p-3"
@@ -119,7 +180,6 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             </button>
           )}
 
-          {/* Photo */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={currentPhoto.fullUrl}
@@ -128,8 +188,7 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             className="max-w-[calc(100vw-80px)] max-h-[calc(100vh-80px)] object-contain rounded shadow-2xl"
           />
 
-          {/* Next */}
-          {lightboxIndex < photos.length - 1 && (
+          {lightbox.index < currentGroup.photos.length - 1 && (
             <button
               onClick={e => { e.stopPropagation(); next() }}
               className="absolute right-3 text-white/70 hover:text-white p-3"
@@ -139,9 +198,8 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             </button>
           )}
 
-          {/* Counter */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/50 text-xs">
-            {lightboxIndex + 1} / {photos.length}
+            {lightbox.index + 1} / {currentGroup.photos.length}
           </div>
         </div>
       )}
