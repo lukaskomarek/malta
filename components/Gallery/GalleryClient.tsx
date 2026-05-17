@@ -78,15 +78,26 @@ function DaySection({ group, isLastDay, onOpen }: DaySectionProps) {
                 onClick={() => onOpen(group.label, dayIdx)}
                 className="relative w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8] group"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={photo.thumbUrl}
-                  alt=""
-                  className="w-full h-auto block transition-opacity duration-200 group-hover:opacity-90"
-                  loading="lazy"
-                  width={photo.width}
-                  height={photo.height}
-                />
+                {photo.type === 'video' ? (
+                  <video
+                    src={photo.fullUrl}
+                    preload="metadata"
+                    muted
+                    playsInline
+                    className="w-full h-auto block transition-opacity duration-200 group-hover:opacity-90"
+                    style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={photo.thumbUrl}
+                    alt=""
+                    className="w-full h-auto block transition-opacity duration-200 group-hover:opacity-90"
+                    loading="lazy"
+                    width={photo.width}
+                    height={photo.height}
+                  />
+                )}
                 {photo.type === 'video' && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="bg-black/50 rounded-full p-3 group-hover:bg-black/70 transition-colors">
