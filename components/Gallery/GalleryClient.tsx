@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ChevronDown, Play } from 'lucide-react'
 import type { Photo } from '@/lib/icloud'
 
 const INITIAL_VISIBLE = 10
@@ -127,17 +127,24 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
                       <button
                         key={photo.guid}
                         onClick={() => setLightbox({ dayLabel: group.label, index: dayIdx })}
-                        className="w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8]"
+                        className="relative w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8] group"
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={photo.thumbUrl}
                           alt=""
-                          className="w-full h-auto block transition-opacity duration-200 hover:opacity-90"
+                          className="w-full h-auto block transition-opacity duration-200 group-hover:opacity-90"
                           loading="lazy"
                           width={photo.width}
                           height={photo.height}
                         />
+                        {photo.type === 'video' && (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="bg-black/50 rounded-full p-3 group-hover:bg-black/70 transition-colors">
+                              <Play size={24} className="text-white fill-white" />
+                            </div>
+                          </div>
+                        )}
                       </button>
                     )
                   })}
@@ -180,13 +187,25 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
             </button>
           )}
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={currentPhoto.fullUrl}
-            alt=""
-            onClick={e => e.stopPropagation()}
-            className="max-w-[calc(100vw-80px)] max-h-[calc(100vh-80px)] object-contain rounded shadow-2xl"
-          />
+          {currentPhoto.type === 'video' ? (
+            <video
+              key={currentPhoto.guid}
+              src={currentPhoto.fullUrl}
+              controls
+              autoPlay
+              playsInline
+              onClick={e => e.stopPropagation()}
+              className="max-w-[calc(100vw-80px)] max-h-[calc(100vh-80px)] rounded shadow-2xl"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={currentPhoto.fullUrl}
+              alt=""
+              onClick={e => e.stopPropagation()}
+              className="max-w-[calc(100vw-80px)] max-h-[calc(100vh-80px)] object-contain rounded shadow-2xl"
+            />
+          )}
 
           {lightbox.index < currentGroup.photos.length - 1 && (
             <button

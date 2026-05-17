@@ -26,6 +26,7 @@ type AssetItem = {
 export type Photo = {
   guid: string
   date: string  // ISO string, Date serializes to string through cache
+  type: 'photo' | 'video'
   thumbUrl: string
   fullUrl: string
   width: number
@@ -100,27 +101,51 @@ function pickDerivative(derivatives: Record<string, RawDerivative>, minWidth: nu
   return all.find(d => d.width >= minWidth) ?? all[all.length - 1]
 }
 
+// For videos: the actual video file has by far the largest fileSize among derivatives.
+// Remaining derivatives with dimensions are poster frames (JPEG thumbnails).
+function pickVideoDerivative(derivatives: Record<string, RawDerivative>): RawDerivative | undefined {
+  const all = Object.values(derivatives).filter(d => d.fileSize > 0)
+  all.sort((a, b) => b.fileSize - a.fileSize)
+  return all[0]
+}
+
+function pickPosterDerivative(derivatives: Record<string, RawDerivative>, minWidth: number): RawDerivative | undefined {
+  const videoFile = pickVideoDerivative(derivatives)
+  const all = Object.values(derivatives).filter(
+    d => d.width > 0 && d.height > 0 && d.checksum !== videoFile?.checksum
+  )
+  all.sort((a, b) => a.width - b.width)
+  return all.find(d => d.width >= minWidth) ?? all[all.length - 1]
+}
+
 export const getGalleryData = unstable_cache(
   async (): Promise<GalleryData> => {
     try {
       const { host, photos } = await fetchWebstream()
       if (!photos.length) return { photos: [], lastUpdated: null }
 
-      const onlyPhotos = photos.filter(p => p.mediaAssetType !== 'video')
-      const photoGuids = onlyPhotos.map(p => p.photoGuid)
-      const items = await fetchAssetUrls(host, photoGuids)
+      const media = photos.filter(p => p.mediaAssetType === 'image' || p.mediaAssetType === 'video')
+      const mediaGuids = media.map(p => p.photoGuid)
+      const items = await fetchAssetUrls(host, mediaGuids)
 
-      // Latest batchDateCreated = when photos were last added to the album
-      const lastUpdated = onlyPhotos
+      // Latest batchDateCreated = when items were last added to the album
+      const lastUpdated = media
         .map(p => p.batchDateCreated)
         .filter(Boolean)
         .sort()
         .at(-1) ?? null
 
-      const mapped = onlyPhotos
+      const mapped = media
         .map((photo): Photo | null => {
-          const thumb = pickDerivative(photo.derivatives, 600)
-          const full = pickDerivative(photo.derivatives, 2000)
+          const isVideo = photo.mediaAssetType === 'video'
+
+          const thumb = isVideo
+            ? pickPosterDerivative(photo.derivatives, 600)
+            : pickDerivative(photo.derivatives, 600)
+          const full = isVideo
+            ? pickVideoDerivative(photo.derivatives)
+            : pickDerivative(photo.derivatives, 2000)
+
           if (!thumb || !full) return null
 
           const thumbItem = items[thumb.checksum]
@@ -130,6 +155,7 @@ export const getGalleryData = unstable_cache(
           return {
             guid: photo.photoGuid,
             date: new Date(photo.dateCreated).toISOString(),
+            type: isVideo ? 'video' : 'photo',
             thumbUrl: buildUrl(thumbItem),
             fullUrl: buildUrl(fullItem),
             width: full.width,
