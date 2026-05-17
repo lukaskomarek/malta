@@ -33,12 +33,87 @@ function capitalize(s: string) {
 
 type Lightbox = { dayLabel: string; index: number }
 
+type DaySectionProps = {
+  group: DayGroup
+  isLastDay: boolean
+  onOpen: (dayLabel: string, index: number) => void
+}
+
+function DaySection({ group, isLastDay, onOpen }: DaySectionProps) {
+  const [isOpen, setIsOpen] = useState(isLastDay)
+  const [showAll, setShowAll] = useState(false)
+
+  const visiblePhotos = isLastDay && !showAll
+    ? group.photos.slice(0, INITIAL_VISIBLE)
+    : group.photos
+  const hiddenCount = group.photos.length - INITIAL_VISIBLE
+  const hasMore = isLastDay && !showAll && hiddenCount > 0
+
+  return (
+    <section>
+      <button
+        onClick={() => setIsOpen(o => !o)}
+        className="w-full flex items-center justify-between py-2.5 text-left group"
+      >
+        <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 group-hover:text-stone-600 transition-colors">
+          {capitalize(group.label)}
+        </h2>
+        <span className="text-xs text-stone-400 flex items-center gap-1.5 group-hover:text-stone-600 transition-colors">
+          {group.photos.length}{' '}
+          {group.photos.length === 1 ? 'fotka' : group.photos.length < 5 ? 'fotky' : 'fotek'}
+          <ChevronDown
+            size={14}
+            className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          />
+        </span>
+      </button>
+
+      {isOpen && (
+        <div className="flex flex-col gap-1 pb-4">
+          {visiblePhotos.map((photo) => {
+            const dayIdx = group.photos.indexOf(photo)
+            return (
+              <button
+                key={photo.guid}
+                onClick={() => onOpen(group.label, dayIdx)}
+                className="relative w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8] group"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={photo.thumbUrl}
+                  alt=""
+                  className="w-full h-auto block transition-opacity duration-200 group-hover:opacity-90"
+                  loading="lazy"
+                  width={photo.width}
+                  height={photo.height}
+                />
+                {photo.type === 'video' && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-black/50 rounded-full p-3 group-hover:bg-black/70 transition-colors">
+                      <Play size={24} className="text-white fill-white" />
+                    </div>
+                  </div>
+                )}
+              </button>
+            )
+          })}
+
+          {hasMore && (
+            <button
+              onClick={() => setShowAll(true)}
+              className="mt-2 w-full py-2.5 rounded-sm border border-stone-200 text-xs text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors"
+            >
+              Zobrazit více fotek ({hiddenCount})
+            </button>
+          )}
+        </div>
+      )}
+    </section>
+  )
+}
+
 export default function GalleryClient({ photos }: { photos: Photo[] }) {
   const groups = groupByDay(photos)
-  const lastDayLabel = groups[0]?.label ?? ''
-
-  const [expandedDays, setExpandedDays] = useState<Set<string>>(new Set([lastDayLabel]))
-  const [showAllDays, setShowAllDays] = useState<Set<string>>(new Set())
   const [lightbox, setLightbox] = useState<Lightbox | null>(null)
 
   const currentGroup = lightbox ? groups.find(g => g.label === lightbox.dayLabel) ?? null : null
@@ -70,15 +145,6 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
     return () => window.removeEventListener('keydown', handler)
   }, [lightbox, close, prev, next])
 
-  const toggleDay = (label: string) => {
-    setExpandedDays(prev => {
-      const next = new Set(prev)
-      if (next.has(label)) next.delete(label)
-      else next.add(label)
-      return next
-    })
-  }
-
   if (!photos.length) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-stone-400">
@@ -91,77 +157,14 @@ export default function GalleryClient({ photos }: { photos: Photo[] }) {
   return (
     <>
       <div className="space-y-1">
-        {groups.map(group => {
-          const isExpanded = expandedDays.has(group.label)
-          const isLastDay = group.label === lastDayLabel
-          const showAll = showAllDays.has(group.label)
-          const visiblePhotos = isLastDay && !showAll
-            ? group.photos.slice(0, INITIAL_VISIBLE)
-            : group.photos
-          const hiddenCount = group.photos.length - INITIAL_VISIBLE
-          const hasMore = isLastDay && !showAll && hiddenCount > 0
-
-          return (
-            <section key={group.label}>
-              <button
-                onClick={() => toggleDay(group.label)}
-                className="w-full flex items-center justify-between py-2.5 text-left group"
-              >
-                <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 group-hover:text-stone-600 transition-colors">
-                  {capitalize(group.label)}
-                </h2>
-                <span className="text-xs text-stone-400 flex items-center gap-1.5 group-hover:text-stone-600 transition-colors">
-                  {group.photos.length} {group.photos.length === 1 ? 'fotka' : group.photos.length < 5 ? 'fotky' : 'fotek'}
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                  />
-                </span>
-              </button>
-
-              {isExpanded && (
-                <div className="flex flex-col gap-1 pb-4">
-                  {visiblePhotos.map((photo) => {
-                    const dayIdx = group.photos.indexOf(photo)
-                    return (
-                      <button
-                        key={photo.guid}
-                        onClick={() => setLightbox({ dayLabel: group.label, index: dayIdx })}
-                        className="relative w-full overflow-hidden rounded-sm bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1B6CA8] group"
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={photo.thumbUrl}
-                          alt=""
-                          className="w-full h-auto block transition-opacity duration-200 group-hover:opacity-90"
-                          loading="lazy"
-                          width={photo.width}
-                          height={photo.height}
-                        />
-                        {photo.type === 'video' && (
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="bg-black/50 rounded-full p-3 group-hover:bg-black/70 transition-colors">
-                              <Play size={24} className="text-white fill-white" />
-                            </div>
-                          </div>
-                        )}
-                      </button>
-                    )
-                  })}
-
-                  {hasMore && (
-                    <button
-                      onClick={() => setShowAllDays(prev => new Set([...prev, group.label]))}
-                      className="mt-2 w-full py-2.5 rounded-sm border border-stone-200 text-xs text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors"
-                    >
-                      Zobrazit více fotek ({hiddenCount})
-                    </button>
-                  )}
-                </div>
-              )}
-            </section>
-          )
-        })}
+        {groups.map((group, i) => (
+          <DaySection
+            key={group.label}
+            group={group}
+            isLastDay={i === 0}
+            onOpen={(dayLabel, index) => setLightbox({ dayLabel, index })}
+          />
+        ))}
       </div>
 
       {currentPhoto && lightbox !== null && currentGroup && (
