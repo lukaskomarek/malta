@@ -124,7 +124,8 @@ export const getGalleryData = unstable_cache(
       const { host, photos } = await fetchWebstream()
       if (!photos.length) return { photos: [], lastUpdated: null }
 
-      const media = photos.filter(p => p.mediaAssetType === 'image' || p.mediaAssetType === 'video')
+      // Keep everything — previously only videos were excluded, now we include them too
+      const media = photos
       const mediaGuids = media.map(p => p.photoGuid)
       const items = await fetchAssetUrls(host, mediaGuids)
 
@@ -171,6 +172,6 @@ export const getGalleryData = unstable_cache(
       return { photos: [], lastUpdated: null }
     }
   },
-  ['icloud-photos-v7'],
+  ['icloud-photos-v8'],
   { revalidate: 3600 }
 )
